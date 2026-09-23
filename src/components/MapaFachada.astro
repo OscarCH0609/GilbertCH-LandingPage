@@ -1,0 +1,48 @@
+---
+// Fachada del mapa (RF-07): el iframe de Google Maps, que pesa varios cientos de KB y
+// coloca cookies de terceros, solo se carga cuando la persona lo solicita.
+import Icono from "./Icono.astro";
+import { sitio } from "../config/sitio";
+---
+
+<div class="relative aspect-[4/3] overflow-hidden rounded border border-border bg-surface sm:aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[26rem]" data-mapa={sitio.mapas.embed}>
+  <!-- Ilustración decorativa de mapa -->
+  <svg class="absolute inset-0 h-full w-full text-border" aria-hidden="true" preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300">
+    <defs>
+      <pattern id="cuadricula" width="24" height="24" patternUnits="userSpaceOnUse">
+        <path d="M24 0H0v24" fill="none" stroke="currentColor" stroke-width="0.5"></path>
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill="url(#cuadricula)"></rect>
+    <path d="M-10 210C60 190 110 150 170 150s110 40 160 20 70-60 90-70" fill="none" stroke="#2f2f2f" stroke-width="10" stroke-linecap="round"></path>
+    <path d="M-10 210C60 190 110 150 170 150s110 40 160 20 70-60 90-70" fill="none" stroke="#A07828" stroke-width="1" stroke-dasharray="6 6" opacity="0.6"></path>
+    <path d="M120 -10c10 60 30 110 50 160s20 110 10 160" fill="none" stroke="#262626" stroke-width="6" stroke-linecap="round"></path>
+  </svg>
+  <div class="relative flex h-full flex-col items-center justify-center gap-5 p-6 text-center">
+    <span class="inline-flex size-14 items-center justify-center rounded-full border border-gold-dark bg-bg">
+      <Icono nombre="map-pin" tamano={26} class="text-gold" />
+    </span>
+    <p class="max-w-xs text-sm text-text">{sitio.direccion.linea}, {sitio.direccion.provincia}</p>
+    <button type="button" class="boton boton-secundario bg-bg" data-cargar-mapa>
+      <Icono nombre="map-pin" tamano={18} class="text-gold" />
+      Ver mapa interactivo
+    </button>
+    <p class="max-w-xs text-xs text-text-subtle">Al cargarlo, Google podrá instalar cookies propias en su navegador.</p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-mapa]").forEach((contenedor) => {
+    contenedor.querySelector("[data-cargar-mapa]")?.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = contenedor.dataset.mapa!;
+      iframe.title = "Mapa de la ubicación de la oficina en Barbacoas de Puriscal";
+      iframe.loading = "lazy";
+      iframe.referrerPolicy = "strict-origin-when-cross-origin";
+      iframe.className = "absolute inset-0 h-full w-full border-0";
+      iframe.setAttribute("allowfullscreen", "");
+      contenedor.replaceChildren(iframe);
+      iframe.focus();
+    });
+  });
+</script>

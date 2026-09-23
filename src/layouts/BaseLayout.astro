@@ -1,0 +1,119 @@
+---
+import "../styles/global.css";
+import fuenteTitulos from "@fontsource/cormorant-garamond/files/cormorant-garamond-latin-600-normal.woff2?url";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import WhatsAppFlotante from "../components/WhatsAppFlotante.astro";
+import { sitio } from "../config/sitio";
+
+interface Props {
+  titulo?: string;
+  descripcion?: string;
+  /** Página de una sola sección (legales, gracias, 404): el menú apunta a la landing. */
+  interior?: boolean;
+  noIndexar?: boolean;
+}
+
+const { titulo = sitio.titulo, descripcion = sitio.descripcion, interior = false, noIndexar = false } = Astro.props;
+
+const canonica = new URL(Astro.url.pathname.replace(/\.html$/, ""), Astro.site);
+const imagenOg = new URL("/og-image.jpg", Astro.site);
+const plausible = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
+
+// Datos estructurados LegalService (Schema.org).
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LegalService",
+  name: sitio.nombreCompleto,
+  description: "Abogado y notario. Derecho laboral, constitucional, contencioso administrativo, familia y servicios notariales.",
+  url: new URL("/", Astro.site).href,
+  logo: new URL("/favicon-512.png", Astro.site).href,
+  image: imagenOg.href,
+  telephone: sitio.telefonos.map((t) => t.e164),
+  email: sitio.correo,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: sitio.direccion.calle,
+    addressLocality: sitio.direccion.localidad,
+    addressRegion: sitio.direccion.provincia,
+    addressCountry: sitio.direccion.pais,
+  },
+  ...(sitio.coordenadas && {
+    geo: { "@type": "GeoCoordinates", latitude: sitio.coordenadas.lat, longitude: sitio.coordenadas.lng },
+  }),
+  areaServed: sitio.areasServidas,
+  openingHoursSpecification: sitio.horario.map((h) => ({
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: h.schemaDias,
+    opens: h.abre,
+    closes: h.cierra,
+  })),
+  founder: { "@type": "Person", name: sitio.nombre, jobTitle: sitio.profesion },
+};
+---
+
+<!doctype html>
+<html lang="es-CR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonica} />
+    {noIndexar && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#0A0A0A" />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon-512.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <link rel="preload" href={fuenteTitulos} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CR" />
+    <meta property="og:site_name" content={sitio.nombreCompleto} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:image" content={imagenOg} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Logo de Gilbert Charpentier, Consultorio Jurídico" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={descripcion} />
+    <meta name="twitter:image" content={imagenOg} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <script is:inline>document.documentElement.classList.add("js");</script>
+
+    {plausible && <script defer data-domain={plausible} src="https://plausible.io/js/script.js" />}
+  </head>
+  <body>
+    <a
+      href="#contenido"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-gold focus:px-4 focus:py-3 focus:font-semibold focus:text-bg"
+    >
+      Saltar al contenido
+    </a>
+
+    <Header interior={interior} />
+
+    <main id="contenido" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+
+    <Footer />
+    <WhatsAppFlotante />
+
+    <script>
+      import { iniciarAnalitica } from "../scripts/analitica";
+      import { iniciarApariciones } from "../scripts/apariciones";
+      iniciarAnalitica();
+      iniciarApariciones();
+    </script>
+  </body>
+</html>

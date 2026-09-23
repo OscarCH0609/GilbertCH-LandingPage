@@ -1,0 +1,25 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  actualizado: string;
+}
+
+const { titulo, descripcion, actualizado } = Astro.props;
+---
+
+<BaseLayout titulo={`${titulo} | Gilbert Charpentier`} descripcion={descripcion} interior>
+  <article class="seccion">
+    <div class="contenedor">
+      <p class="etiqueta">Información legal</p>
+      <span class="linea-dorada mt-4" aria-hidden="true"></span>
+      <h1 class="mt-5">{titulo}</h1>
+      <p class="mt-4 text-sm text-text-subtle">Última actualización: {actualizado}</p>
+      <div class="legal prosa mt-10">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

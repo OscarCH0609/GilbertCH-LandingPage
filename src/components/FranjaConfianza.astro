@@ -1,0 +1,26 @@
+---
+import Icono, { type NombreIcono } from "./Icono.astro";
+import { sitio } from "../config/sitio";
+
+const datos: { icono: NombreIcono; etiqueta: string; valor: string }[] = [
+  { icono: "badge-check", etiqueta: "Carné profesional", valor: sitio.carne },
+  { icono: "map-pin", etiqueta: "Oficina", valor: sitio.direccion.linea },
+  { icono: "clock", etiqueta: "Horario", valor: sitio.horarioResumido },
+];
+---
+
+<section aria-label="Datos del consultorio" class="border-y border-border bg-surface">
+  <ul class="contenedor grid divide-y divide-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+    {
+      datos.map((dato) => (
+        <li class="flex items-center gap-4 py-5 sm:justify-center sm:px-4">
+          <Icono nombre={dato.icono} tamano={26} class="shrink-0 text-gold" />
+          <div>
+            <p class="etiqueta">{dato.etiqueta}</p>
+            <p class="mt-0.5 text-[0.9375rem] font-medium text-text">{dato.valor}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>

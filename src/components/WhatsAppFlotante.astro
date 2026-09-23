@@ -1,0 +1,31 @@
+---
+import IconoWhatsApp from "./IconoWhatsApp.astro";
+import { sitio } from "../config/sitio";
+---
+
+<a
+  id="whatsapp-flotante"
+  href={sitio.whatsapp.general}
+  target="_blank"
+  rel="noopener"
+  aria-label="Escribir por WhatsApp"
+  title="Escribir por WhatsApp"
+  class="fixed bottom-5 right-5 z-40 inline-flex size-14 items-center justify-center rounded-full bg-gold text-bg shadow-[0_8px_30px_rgb(0_0_0/0.5)] transition-[transform,opacity,background-color] duration-300 hover:bg-gold-light data-[oculto]:pointer-events-none data-[oculto]:translate-y-4 data-[oculto]:opacity-0 sm:bottom-6 sm:right-6"
+  data-evento="clic_whatsapp"
+  data-origen="flotante"
+>
+  <IconoWhatsApp tamano={28} />
+</a>
+
+<script>
+  // Se oculta mientras el formulario (#consulta) está visible para no tapar el botón de envío.
+  const boton = document.getElementById("whatsapp-flotante")!;
+  const consulta = document.getElementById("consulta");
+  if (consulta && "IntersectionObserver" in window) {
+    new IntersectionObserver(([entrada]) => {
+      boton.toggleAttribute("data-oculto", entrada.isIntersecting);
+      if (entrada.isIntersecting) boton.setAttribute("tabindex", "-1");
+      else boton.removeAttribute("tabindex");
+    }).observe(consulta);
+  }
+</script>

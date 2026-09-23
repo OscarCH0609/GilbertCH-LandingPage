@@ -1,0 +1,132 @@
+---
+import { getCollection, render } from "astro:content";
+import EncabezadoSeccion from "./EncabezadoSeccion.astro";
+import Icono from "./Icono.astro";
+
+const areas = (await getCollection("areas")).sort((a, b) => a.data.orden - b.data.orden);
+const conContenido = await Promise.all(areas.map(async (area) => ({ area, ...(await render(area)) })));
+---
+
+<section id="areas" aria-labelledby="titulo-areas" class="seccion border-t border-border">
+  <div class="contenedor">
+    <EncabezadoSeccion id="titulo-areas" etiqueta="Áreas de práctica" titulo="¿En qué podemos ayudarle?">
+      <p>
+        Atención profesional en las principales ramas del derecho, con especial experiencia en la defensa de
+        personas trabajadoras y funcionarias frente a la Administración Pública.
+      </p>
+    </EncabezadoSeccion>
+
+    <ul class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {
+        areas.map((area) => (
+          <li class="aparecer tarjeta flex flex-col p-7 transition-colors hover:border-gold-dark/70">
+            <Icono nombre={area.data.icono} tamano={30} class="text-gold" />
+            <h3 class="mt-5">{area.data.titulo}</h3>
+            <p class="mt-3 text-[0.9375rem] leading-relaxed">{area.data.resumen}</p>
+            <button
+              type="button"
+              class="mt-auto inline-flex min-h-11 items-center gap-1.5 self-start pt-4 text-sm font-semibold text-gold hover:text-gold-light"
+              data-abrir-area={area.id}
+              aria-haspopup="dialog"
+            >
+              Ver más <span class="sr-only">sobre {area.data.titulo}</span>
+              <Icono nombre="arrow-right" tamano={16} />
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  {
+    conContenido.map(({ area, Content }) => (
+      <dialog
+        id={`area-${area.id}`}
+        aria-labelledby={`area-titulo-${area.id}`}
+        class="m-auto max-h-[90dvh] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto rounded border border-border bg-surface p-0 text-text-muted backdrop:bg-black/75"
+      >
+        <div class="relative p-6 sm:p-9">
+          <button
+            type="button"
+            class="absolute right-3 top-3 inline-flex size-11 items-center justify-center rounded text-text-muted hover:text-text"
+            data-cerrar-dialogo
+            aria-label="Cerrar"
+          >
+            <Icono nombre="x" tamano={22} />
+          </button>
+          <Icono nombre={area.data.icono} tamano={32} class="text-gold" />
+          <h3 id={`area-titulo-${area.id}`} class="mt-4 font-serif text-3xl">
+            {area.data.titulo}
+          </h3>
+          <span class="linea-dorada mt-4" aria-hidden="true" />
+          <div class="mt-5 space-y-4">
+            <Content />
+          </div>
+
+          {area.data.servicios.length > 0 && (
+            <>
+              <h4 class="etiqueta mt-8">Servicios incluidos</h4>
+              <ul class="mt-3 space-y-2">
+                {area.data.servicios.map((servicio) => (
+                  <li class="flex gap-3">
+                    <Icono nombre="check" tamano={18} class="mt-1 shrink-0 text-gold" />
+                    <span>{servicio}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+
+          {area.data.logros.length > 0 && (
+            <>
+              <h4 class="etiqueta mt-8">Logros destacados</h4>
+              <ul class="mt-3 space-y-2">
+                {area.data.logros.map((logro) => (
+                  <li class="flex gap-3">
+                    <Icono nombre="award" tamano={18} class="mt-1 shrink-0 text-gold" />
+                    <span>{logro}</span>
+                  </li>
+                ))}
+              </ul>
+              <p class="mt-3 text-sm text-text-subtle">
+                Los resultados obtenidos en casos anteriores no garantizan resultados en casos futuros.
+              </p>
+            </>
+          )}
+
+          <a href="#consulta" class="boton boton-primario mt-9 w-full sm:w-auto" data-preseleccionar={area.data.areaFormulario}>
+            Consultar sobre este tema
+            <Icono nombre="arrow-right" tamano={18} />
+          </a>
+        </div>
+      </dialog>
+    ))
+  }
+</section>
+
+<script>
+  import { preseleccionarArea } from "../scripts/preseleccion";
+
+  document.querySelectorAll<HTMLButtonElement>("[data-abrir-area]").forEach((boton) => {
+    const dialogo = document.getElementById(`area-${boton.dataset.abrirArea}`) as HTMLDialogElement | null;
+    if (!dialogo) return;
+    boton.addEventListener("click", () => dialogo.showModal());
+    // Al cerrar se devuelve el foco al botón, salvo que se vaya al formulario.
+    dialogo.addEventListener("close", () => {
+      if (dialogo.dataset.haciaFormulario) delete dialogo.dataset.haciaFormulario;
+      else boton.focus();
+    });
+    // Cerrar al pulsar fuera del contenido.
+    dialogo.addEventListener("click", (e) => {
+      if (e.target === dialogo) dialogo.close();
+    });
+    dialogo.querySelector("[data-cerrar-dialogo]")?.addEventListener("click", () => dialogo.close());
+    dialogo.querySelector<HTMLAnchorElement>("[data-preseleccionar]")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      const area = (e.currentTarget as HTMLAnchorElement).dataset.preseleccionar!;
+      dialogo.dataset.haciaFormulario = "1";
+      dialogo.close();
+      preseleccionarArea(area);
+    });
+  });
+</script>

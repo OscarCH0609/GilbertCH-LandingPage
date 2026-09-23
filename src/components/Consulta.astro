@@ -1,0 +1,58 @@
+---
+import EncabezadoSeccion from "./EncabezadoSeccion.astro";
+import FormularioConsulta from "./FormularioConsulta";
+import Icono from "./Icono.astro";
+import IconoWhatsApp from "./IconoWhatsApp.astro";
+import { sitio } from "../config/sitio";
+---
+
+<section id="consulta" aria-labelledby="titulo-consulta" class="seccion border-y border-border bg-surface">
+  <div class="contenedor grid gap-12 lg:grid-cols-[4fr_8fr] lg:gap-16">
+    <div>
+      <EncabezadoSeccion id="titulo-consulta" etiqueta="Clientes" titulo="Solicitar consulta">
+        <p>
+          Complete el formulario y le contactaremos en un plazo de uno a dos días hábiles para coordinar su cita,
+          presencial o virtual.
+        </p>
+      </EncabezadoSeccion>
+
+      <div class="aparecer mt-8 space-y-4 text-[0.9375rem]">
+        <p class="etiqueta">¿Prefiere otro medio?</p>
+        <a
+          href={sitio.whatsapp.general}
+          target="_blank"
+          rel="noopener"
+          class="flex min-h-11 items-center gap-3 text-text hover:text-gold-light"
+          data-evento="clic_whatsapp"
+          data-origen="consulta"
+        >
+          <IconoWhatsApp tamano={20} class="text-gold" />
+          Escribir por WhatsApp
+        </a>
+        {
+          sitio.telefonos.map((t) => (
+            <a href={t.href} class="flex min-h-11 items-center gap-3 text-text hover:text-gold-light" data-evento="clic_llamar">
+              <Icono nombre="phone" tamano={20} class="text-gold" />
+              {t.visible}
+              <span class="text-text-subtle">· {t.tipo}</span>
+            </a>
+          ))
+        }
+      </div>
+
+      <p class="mt-8 border-l border-gold-dark pl-4 text-sm text-text-subtle">
+        El envío de una consulta no establece una relación abogado-cliente ni obliga a aceptar el caso.
+      </p>
+    </div>
+
+    <div class="rounded border border-border bg-bg p-6 sm:p-9">
+      <FormularioConsulta
+        client:visible
+        endpoint={import.meta.env.PUBLIC_CONSULTA_ENDPOINT}
+        turnstileSiteKey={import.meta.env.PUBLIC_TURNSTILE_SITE_KEY}
+        versionPrivacidad={sitio.versionPrivacidad}
+        whatsapp={sitio.whatsapp.general}
+      />
+    </div>
+  </div>
+</section>

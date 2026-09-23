@@ -1,0 +1,22 @@
+---
+import { siWhatsapp } from "simple-icons";
+
+interface Props {
+  tamano?: number;
+  class?: string;
+}
+
+const { tamano = 20, class: clase } = Astro.props;
+---
+
+<svg
+  width={tamano}
+  height={tamano}
+  viewBox="0 0 24 24"
+  fill="currentColor"
+  class={clase}
+  aria-hidden="true"
+  focusable="false"
+>
+  <path d={siWhatsapp.path}></path>
+</svg>

@@ -1,0 +1,56 @@
+---
+// BORRADOR: el texto definitivo debe redactarlo o revisarlo el abogado antes de publicar.
+import LegalLayout from "../layouts/LegalLayout.astro";
+import { sitio } from "../config/sitio";
+---
+
+<LegalLayout
+  titulo="Aviso legal"
+  descripcion="Identificación del titular del sitio, naturaleza informativa del contenido y limitación de responsabilidad."
+  actualizado="22 de septiembre de 2026"
+>
+  <h2>Titular del sitio</h2>
+  <ul>
+    <li>Titular: {sitio.nombre}, {sitio.profesion.toLowerCase()}.</li>
+    <li>Carné del Colegio de Abogados y Abogadas de Costa Rica: {sitio.carne}.</li>
+    <li>Dirección: {sitio.direccion.linea}, {sitio.direccion.senas}</li>
+    <li>Teléfonos: {sitio.telefonos.map((t) => t.visible).join(" y ")}.</li>
+    <li>Correo: <a href={`mailto:${sitio.correo}`}>{sitio.correo}</a>.</li>
+  </ul>
+
+  <h2>Naturaleza informativa</h2>
+  <p>
+    La información publicada en este sitio es de carácter general y tiene fines exclusivamente informativos. No
+    constituye asesoría legal ni sustituye la consulta con un profesional sobre las circunstancias concretas de cada
+    caso.
+  </p>
+
+  <h2>Relación abogado-cliente</h2>
+  <p>
+    El envío del formulario de consulta, un mensaje de WhatsApp o un correo electrónico no crea una relación
+    abogado-cliente ni obliga al titular a aceptar el caso. La relación profesional inicia únicamente cuando ambas
+    partes acuerdan los servicios y sus condiciones.
+  </p>
+
+  <h2>Resultados</h2>
+  <p>
+    Las descripciones de casos atendidos y logros son generales y anonimizadas. Los resultados obtenidos en casos
+    anteriores no garantizan resultados en casos futuros.
+  </p>
+
+  <h2>Limitación de responsabilidad</h2>
+  <p>
+    El titular procura que la información del sitio sea exacta y esté actualizada, pero no se responsabiliza por las
+    decisiones que se tomen con base en la información general publicada sin una consulta profesional previa, ni por el
+    contenido de sitios de terceros enlazados desde este sitio.
+  </p>
+
+  <h2>Propiedad intelectual</h2>
+  <p>
+    Los textos, el logotipo, el monograma y los demás elementos gráficos de este sitio pertenecen a su titular. No se
+    permite su reproducción total o parcial sin autorización previa y por escrito.
+  </p>
+
+  <h2>Ley aplicable</h2>
+  <p>Este aviso se rige por la legislación de la República de Costa Rica.</p>
+</LegalLayout>

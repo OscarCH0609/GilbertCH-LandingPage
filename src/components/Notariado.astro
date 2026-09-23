@@ -1,0 +1,43 @@
+---
+import EncabezadoSeccion from "./EncabezadoSeccion.astro";
+import Icono from "./Icono.astro";
+
+const tramites = [
+  "Inscripciones",
+  "Traspasos",
+  "Registro de marcas comerciales",
+  "Procesos sucesorios en sede notarial",
+  "Matrimonios en sede notarial",
+  "Divorcios en sede notarial",
+];
+---
+
+<section id="notariado" aria-labelledby="titulo-notariado" class="seccion">
+  <div class="contenedor grid gap-12 lg:grid-cols-[5fr_7fr] lg:gap-20">
+    <EncabezadoSeccion id="titulo-notariado" etiqueta="Servicios notariales" titulo="Trámites notariales con respaldo profesional">
+      <p>
+        Como notario público, atendemos los trámites más frecuentes con rapidez y la seguridad jurídica que cada acto
+        requiere.
+      </p>
+    </EncabezadoSeccion>
+
+    <div class="aparecer">
+      <ul class="grid gap-x-8 sm:grid-cols-2">
+        {
+          tramites.map((tramite) => (
+            <li class="flex min-h-16 items-center gap-4 border-b border-border py-3 text-text">
+              <span class="inline-flex size-8 shrink-0 items-center justify-center rounded-full border border-gold-dark">
+                <Icono nombre="check" tamano={16} class="text-gold" />
+              </span>
+              {tramite}
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-6 flex items-start gap-3 text-sm text-text-subtle">
+        <Icono nombre="file-text" tamano={18} class="mt-0.5 shrink-0 text-gold" />
+        Consulte los requisitos de cada trámite antes de su cita.
+      </p>
+    </div>
+  </div>
+</section>

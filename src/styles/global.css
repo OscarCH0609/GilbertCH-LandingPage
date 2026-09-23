@@ -1,0 +1,203 @@
+@import "tailwindcss";
+@import "@fontsource/cormorant-garamond/latin-600.css";
+@import "@fontsource/montserrat/latin-400.css";
+@import "@fontsource/montserrat/latin-500.css";
+@import "@fontsource/montserrat/latin-600.css";
+
+/* Tokens de marca (extraídos del kit). Tailwind genera utilidades a partir de @theme
+   y además los expone como variables CSS en :root. */
+@theme {
+  --color-bg: #0a0a0a;
+  --color-surface: #141414;
+  --color-surface-2: #1c1c1c;
+  --color-border: #2a2a2a;
+  --color-gold: #c8983f;
+  --color-gold-dark: #a07828;
+  --color-gold-light: #f0d89c;
+  --color-text: #ffffff;
+  --color-text-muted: #b3b3b3;
+  --color-text-subtle: #8c8c8c;
+
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --radius-brand: 4px;
+}
+
+:root {
+  --gradient-gold: linear-gradient(135deg, #f0d89c 0%, #c8983f 50%, #a07828 100%);
+  --fs-h1: clamp(2.25rem, 5vw, 3.5rem);
+  --fs-h2: clamp(1.75rem, 3.5vw, 2.5rem);
+  --fs-h3: 1.375rem;
+  --fs-body: 1.0625rem;
+  --fs-label: 0.75rem;
+  --tracking-label: 0.2em;
+  --max-width: 1200px;
+  --section-pad: clamp(4rem, 8vw, 7rem);
+  --header-h: 4.5rem;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+  h1 { font-size: var(--fs-h1); }
+  h2 { font-size: var(--fs-h2); }
+  h3 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--fs-h3);
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--color-gold); color: var(--color-bg); }
+
+  /* Indicador de foco: contorno dorado de 2 px con separación de 2 px. */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .contenedor {
+    width: 100%;
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .contenedor { padding-inline: 2rem; }
+  }
+
+  .seccion { padding-block: var(--section-pad); }
+
+  /* Etiqueta en mayúscula, como "CARNÉ PROFESIONAL" en la tarjeta. */
+  .etiqueta {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--fs-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
+  .prosa { max-width: 70ch; }
+
+  /* Línea divisoria dorada de 1 px (degradado reservado a detalles). */
+  .linea-dorada {
+    display: block;
+    height: 1px;
+    width: 4rem;
+    background: var(--gradient-gold);
+  }
+
+  .boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 48px;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-brand);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+  }
+  .boton-primario {
+    background: var(--color-gold);
+    color: var(--color-bg);
+    border: 1px solid var(--color-gold);
+  }
+  .boton-primario:hover { background: var(--color-gold-light); border-color: var(--color-gold-light); }
+  .boton-secundario {
+    background: transparent;
+    color: var(--color-text);
+    border: 1px solid var(--color-gold-dark);
+  }
+  .boton-secundario:hover { border-color: var(--color-gold); color: var(--color-gold-light); }
+
+  .tarjeta {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-brand);
+  }
+
+  .enlace {
+    color: var(--color-gold);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .enlace:hover { color: var(--color-gold-light); }
+
+  .campo {
+    width: 100%;
+    min-height: 48px;
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-brand);
+    color: var(--color-text);
+    padding: 0.75rem 0.9rem;
+    font: inherit;
+    font-size: 1rem;
+  }
+  .campo:hover { border-color: #3a3a3a; }
+  .campo:focus-visible { border-color: var(--color-gold); }
+  .campo[aria-invalid="true"] { border-color: #e5484d; }
+  .error-campo { color: #ff8a8a; font-size: 0.875rem; margin-top: 0.35rem; }
+
+  /* Contenido de páginas legales. */
+  .legal h2 { margin-top: 2.5rem; margin-bottom: 0.75rem; font-size: 1.75rem; }
+  .legal p, .legal li { margin-bottom: 0.9rem; }
+  .legal ul { list-style: disc; padding-left: 1.25rem; }
+  .legal a { color: var(--color-gold); text-decoration: underline; text-underline-offset: 3px; }
+}
+
+/* Aparición suave. Solo se oculta si hay JavaScript y el usuario no pidió reducir movimiento. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .aparecer {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  html.js .aparecer.visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Diálogos modales nativos. */
+dialog::backdrop { background: rgb(0 0 0 / 0.75); backdrop-filter: blur(2px); }
+body:has(dialog[open]) { overflow: hidden; }

@@ -1,0 +1,34 @@
+---
+import { getCollection } from "astro:content";
+import EncabezadoSeccion from "./EncabezadoSeccion.astro";
+import Acordeon from "./Acordeon.astro";
+
+const todas = (await getCollection("faq")).sort((a, b) => a.data.orden - b.data.orden);
+const generales = todas.filter((p) => p.data.grupo === "general");
+
+// Esquema FAQPage con todas las preguntas visibles en la página (generales y MEP).
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: todas.map((p) => ({
+    "@type": "Question",
+    name: p.data.pregunta,
+    acceptedAnswer: { "@type": "Answer", text: (p.body ?? "").trim() },
+  })),
+};
+---
+
+<section id="recursos" aria-labelledby="titulo-recursos" class="seccion border-t border-border">
+  <div class="contenedor grid gap-12 lg:grid-cols-[4fr_8fr] lg:gap-20">
+    <EncabezadoSeccion id="titulo-recursos" etiqueta="Recursos de acceso público" titulo="Preguntas frecuentes">
+      <p>Respuestas breves a las dudas más comunes antes de una consulta.</p>
+      <p class="mt-4 text-sm text-text-subtle">
+        La información de esta sección es de carácter general y no sustituye la asesoría sobre su caso particular.
+      </p>
+    </EncabezadoSeccion>
+    <div class="aparecer">
+      <Acordeon preguntas={generales} prefijo="faq" />
+    </div>
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+</section>

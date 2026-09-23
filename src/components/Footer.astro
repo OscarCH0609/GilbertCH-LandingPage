@@ -1,0 +1,63 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo-encabezado.png";
+import { sitio } from "../config/sitio";
+
+const anio = new Date().getFullYear();
+---
+
+<footer class="border-t border-border bg-bg pb-24 pt-16 text-sm text-text-subtle sm:pb-12">
+  <div class="contenedor grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+    <div>
+      <Image src={logo} alt="Gilbert Charpentier, Consultorio Jurídico" widths={[200, 400]} sizes="200px" class="h-auto w-[200px]" />
+      <p class="mt-5 max-w-sm">
+        {sitio.profesion} · Carné profesional {sitio.carne}<br />
+        {sitio.direccion.linea}, {sitio.direccion.provincia}, Costa Rica
+      </p>
+    </div>
+
+    <div>
+      <h2 class="etiqueta font-sans text-[length:var(--fs-label)]">Contacto</h2>
+      <ul class="mt-3">
+        {
+          sitio.telefonos.map((t) => (
+            <li>
+              <a href={t.href} class="inline-flex min-h-11 items-center hover:text-gold-light" data-evento="clic_llamar">
+                Tel. {t.visible}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href={`mailto:${sitio.correo}`} class="inline-flex min-h-11 items-center break-all hover:text-gold-light">{sitio.correo}</a>
+        </li>
+        {
+          sitio.redes.map((red) => (
+            <li>
+              <a href={red.url} target="_blank" rel="noopener" class="inline-flex min-h-11 items-center hover:text-gold-light">
+                {red.nombre}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="etiqueta font-sans text-[length:var(--fs-label)]">Información legal</h2>
+      <ul class="mt-3">
+        <li><a href="/aviso-legal" class="inline-flex min-h-11 items-center hover:text-gold-light">Aviso legal</a></li>
+        <li><a href="/privacidad" class="inline-flex min-h-11 items-center hover:text-gold-light">Política de privacidad</a></li>
+        <li><a href="/cookies" class="inline-flex min-h-11 items-center hover:text-gold-light">Política de cookies</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="contenedor mt-12 border-t border-border pt-8 text-xs leading-relaxed">
+    <p class="max-w-3xl">
+      La información de este sitio es de carácter general y no constituye asesoría legal. El envío de una consulta no
+      establece una relación abogado-cliente.
+    </p>
+    <p class="mt-4">© {anio} {sitio.nombreCompleto}. Todos los derechos reservados.</p>
+  </div>
+</footer>

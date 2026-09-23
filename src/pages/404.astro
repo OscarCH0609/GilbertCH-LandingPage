@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout titulo="Página no encontrada | Gilbert Charpentier" interior noIndexar>
+  <section class="seccion">
+    <div class="contenedor max-w-2xl text-center">
+      <p class="etiqueta">Error 404</p>
+      <span class="linea-dorada mx-auto mt-4" aria-hidden="true"></span>
+      <h1 class="mt-6">No encontramos esta página</h1>
+      <p class="mt-6">Es posible que el enlace esté incompleto o que la página ya no exista.</p>
+      <div class="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href="/" class="boton boton-primario">Ir al inicio</a>
+        <a href="/#consulta" class="boton boton-secundario">Solicitar consulta</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

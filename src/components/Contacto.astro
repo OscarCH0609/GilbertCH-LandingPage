@@ -1,0 +1,89 @@
+---
+import EncabezadoSeccion from "./EncabezadoSeccion.astro";
+import MapaFachada from "./MapaFachada.astro";
+import Icono from "./Icono.astro";
+import { sitio } from "../config/sitio";
+---
+
+<section id="contacto" aria-labelledby="titulo-contacto" class="seccion">
+  <div class="contenedor">
+    <EncabezadoSeccion id="titulo-contacto" etiqueta="Contacto" titulo="Visítenos en Barbacoas de Puriscal" />
+
+    <div class="mt-12 grid gap-10 lg:grid-cols-[5fr_7fr]">
+      <div class="aparecer space-y-8">
+        <div class="flex gap-4">
+          <Icono nombre="map-pin" tamano={24} class="mt-1 shrink-0 text-gold" />
+          <div>
+            <h3 class="etiqueta">Dirección</h3>
+            <address class="mt-2 not-italic text-text">
+              {sitio.direccion.linea}<br />
+              <span class="text-text-muted">{sitio.direccion.senas}</span>
+            </address>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <Icono nombre="phone" tamano={24} class="mt-1 shrink-0 text-gold" />
+          <div>
+            <h3 class="etiqueta">Teléfonos</h3>
+            <ul class="mt-1">
+              {
+                sitio.telefonos.map((t) => (
+                  <li>
+                    <a href={t.href} class="inline-flex min-h-11 items-center text-text hover:text-gold-light" data-evento="clic_llamar">
+                      {t.visible}
+                      <span class="ml-2 text-sm text-text-subtle">{t.tipo}</span>
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <Icono nombre="mail" tamano={24} class="mt-1 shrink-0 text-gold" />
+          <div class="min-w-0">
+            <h3 class="etiqueta">Correo</h3>
+            <a href={`mailto:${sitio.correo}`} class="mt-1 inline-flex min-h-11 items-center break-all text-text hover:text-gold-light">
+              {sitio.correo}
+            </a>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <Icono nombre="clock" tamano={24} class="mt-1 shrink-0 text-gold" />
+          <div>
+            <h3 class="etiqueta">Horario</h3>
+            <dl class="mt-2 grid grid-cols-[auto_1fr] gap-x-6 gap-y-1">
+              {
+                sitio.horario.map((h) => (
+                  <>
+                    <dt class="text-text-muted">{h.dias}</dt>
+                    <dd class="text-text">{h.horas}</dd>
+                  </>
+                ))
+              }
+            </dl>
+            <p class="mt-3 text-sm text-text-subtle">{sitio.notaHorario}</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-3 pt-2 sm:flex-row lg:flex-col xl:flex-row">
+          <a href={sitio.mapas.google} target="_blank" rel="noopener" class="boton boton-primario" data-evento="clic_como_llegar" data-origen="google-maps">
+            <Icono nombre="navigation" tamano={18} />
+            Cómo llegar con Google Maps
+          </a>
+          <a href={sitio.mapas.waze} target="_blank" rel="noopener" class="boton boton-secundario" data-evento="clic_como_llegar" data-origen="waze">
+            <Icono nombre="navigation" tamano={18} class="text-gold" />
+            Cómo llegar con Waze
+          </a>
+        </div>
+      </div>
+
+      <div class="aparecer">
+        <MapaFachada />
+      </div>
+    </div>
+  </div>
+</section>

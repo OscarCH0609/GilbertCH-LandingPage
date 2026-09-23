@@ -1,0 +1,181 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo-encabezado.png";
+import Icono from "./Icono.astro";
+import { navegacion } from "../config/sitio";
+
+interface Props {
+  interior?: boolean;
+}
+
+const { interior = false } = Astro.props;
+// En páginas interiores los enlaces apuntan a las anclas de la landing.
+const base = interior ? "/" : "";
+---
+
+<header id="encabezado" class="group sticky top-0 z-50">
+  <!-- El desenfoque va en la barra y no en <header>, para no encerrar al panel fijo del menú móvil. -->
+  <div class="border-b border-transparent bg-bg/85 backdrop-blur-md transition-colors duration-300 group-data-[desplazado]:border-border">
+  <div class="contenedor flex h-[var(--header-h)] items-center justify-between gap-4">
+    <a href={`${base}#inicio`} class="flex min-h-11 shrink-0 items-center" aria-label="Gilbert Charpentier, Consultorio Jurídico. Ir al inicio">
+      <Image
+        src={logo}
+        alt=""
+        widths={[150, 300]}
+        sizes="150px"
+        class="h-auto w-[132px] sm:w-[150px]"
+        loading="eager"
+      />
+    </a>
+
+    <nav aria-label="Principal" class="hidden lg:block">
+      <ul class="flex items-center gap-1 xl:gap-2">
+        {
+          navegacion.map((item) => (
+            <li>
+              <a
+                href={`${base}#${item.id}`}
+                data-nav={item.id}
+                class="relative inline-flex min-h-11 items-center px-2.5 text-[0.8125rem] font-medium text-text-muted transition-colors hover:text-text aria-[current=true]:text-gold"
+              >
+                {item.texto}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href={`${base}#consulta`} class="boton boton-primario !min-h-11 !px-4 text-sm max-[359px]:!px-3">
+        <span class="max-sm:hidden">Solicitar consulta</span>
+        <span class="sm:hidden">Consulta</span>
+      </a>
+      <button
+        type="button"
+        id="boton-menu"
+        class="inline-flex size-11 items-center justify-center rounded text-text lg:hidden"
+        aria-expanded="false"
+        aria-controls="menu-movil"
+        aria-label="Abrir menú"
+      >
+        <Icono nombre="menu" tamano={26} />
+      </button>
+    </div>
+  </div>
+  </div>
+
+  <!-- Panel del menú móvil a pantalla completa -->
+  <div
+    id="menu-movil"
+    class="fixed inset-0 z-50 hidden h-dvh flex-col bg-bg lg:hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Menú"
+  >
+    <div class="contenedor flex h-[var(--header-h)] items-center justify-between border-b border-border">
+      <Image src={logo} alt="" widths={[150, 300]} sizes="132px" class="h-auto w-[132px]" />
+      <button
+        type="button"
+        id="cerrar-menu"
+        class="inline-flex size-11 items-center justify-center rounded text-text"
+        aria-label="Cerrar menú"
+      >
+        <Icono nombre="x" tamano={26} />
+      </button>
+    </div>
+    <nav aria-label="Menú móvil" class="contenedor flex-1 overflow-y-auto py-6">
+      <ul class="flex flex-col">
+        {
+          navegacion.map((item) => (
+            <li class="border-b border-border">
+              <a
+                href={`${base}#${item.id}`}
+                data-nav={item.id}
+                class="flex min-h-14 items-center font-serif text-2xl text-text aria-[current=true]:text-gold"
+              >
+                {item.texto}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a href={`${base}#consulta`} class="boton boton-primario mt-8 w-full">Solicitar consulta</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const encabezado = document.getElementById("encabezado")!;
+  const boton = document.getElementById("boton-menu") as HTMLButtonElement;
+  const cerrar = document.getElementById("cerrar-menu") as HTMLButtonElement;
+  const panel = document.getElementById("menu-movil")!;
+
+  // Borde inferior al desplazarse.
+  const alDesplazar = () => encabezado.toggleAttribute("data-desplazado", window.scrollY > 8);
+  alDesplazar();
+  window.addEventListener("scroll", alDesplazar, { passive: true });
+
+  // Menú móvil: aria-expanded, cierre con Escape y foco atrapado dentro del panel.
+  const enfocables = () =>
+    Array.from(panel.querySelectorAll<HTMLElement>("a[href], button:not([disabled])"));
+
+  function abrir() {
+    panel.classList.remove("hidden");
+    panel.classList.add("flex");
+    boton.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+    cerrar.focus();
+  }
+
+  function cerrarMenu(devolverFoco = true) {
+    panel.classList.add("hidden");
+    panel.classList.remove("flex");
+    boton.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+    if (devolverFoco) boton.focus();
+  }
+
+  boton.addEventListener("click", abrir);
+  cerrar.addEventListener("click", () => cerrarMenu());
+  panel.addEventListener("click", (e) => {
+    if ((e.target as Element).closest("a")) cerrarMenu(false);
+  });
+  panel.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") cerrarMenu();
+    if (e.key !== "Tab") return;
+    const lista = enfocables();
+    const primero = lista[0];
+    const ultimo = lista[lista.length - 1];
+    if (e.shiftKey && document.activeElement === primero) {
+      e.preventDefault();
+      ultimo.focus();
+    } else if (!e.shiftKey && document.activeElement === ultimo) {
+      e.preventDefault();
+      primero.focus();
+    }
+  });
+  window.matchMedia("(min-width: 1024px)").addEventListener("change", (m) => {
+    if (m.matches && boton.getAttribute("aria-expanded") === "true") cerrarMenu(false);
+  });
+
+  // Enlace activo según la sección visible.
+  const enlaces = document.querySelectorAll<HTMLAnchorElement>("[data-nav]");
+  const secciones = Array.from(enlaces)
+    .map((a) => document.getElementById(a.dataset.nav!))
+    .filter((s, i, arr): s is HTMLElement => !!s && arr.indexOf(s) === i);
+
+  if (secciones.length && "IntersectionObserver" in window) {
+    const marcar = (id: string) =>
+      enlaces.forEach((a) => a.setAttribute("aria-current", String(a.dataset.nav === id)));
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        for (const entrada of entradas) {
+          if (entrada.isIntersecting) marcar(entrada.target.id);
+        }
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    secciones.forEach((s) => observador.observe(s));
+  }
+</script>

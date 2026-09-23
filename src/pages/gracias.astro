@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icono from "../components/Icono.astro";
+import IconoWhatsApp from "../components/IconoWhatsApp.astro";
+import { sitio } from "../config/sitio";
+---
+
+<BaseLayout titulo="Solicitud recibida | Gilbert Charpentier" interior noIndexar>
+  <section class="seccion">
+    <div class="contenedor max-w-2xl text-center">
+      <span class="mx-auto inline-flex size-16 items-center justify-center rounded-full border border-gold-dark">
+        <Icono nombre="check" tamano={30} class="text-gold" />
+      </span>
+      <h1 class="mt-8">Recibimos su solicitud</h1>
+      <span class="linea-dorada mx-auto mt-6" aria-hidden="true"></span>
+      <p class="mt-6 text-lg">Le contactaremos en un plazo de uno a dos días hábiles.</p>
+      <p class="mt-3 text-sm text-text-subtle">Si su asunto tiene un plazo próximo a vencer, escríbanos también por WhatsApp.</p>
+      <div class="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href="/" class="boton boton-secundario">Volver al inicio</a>
+        <a href={sitio.whatsapp.general} target="_blank" rel="noopener" class="boton boton-primario" data-evento="clic_whatsapp" data-origen="gracias">
+          <IconoWhatsApp tamano={18} />
+          Escribir por WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

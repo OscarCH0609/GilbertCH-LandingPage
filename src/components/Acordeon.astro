@@ -1,0 +1,71 @@
+---
+// Acordeón de preguntas frecuentes operable con teclado (RF-08):
+// botones con aria-expanded y aria-controls; Escape cierra el panel abierto.
+import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
+import Icono from "./Icono.astro";
+
+interface Props {
+  preguntas: CollectionEntry<"faq">[];
+  prefijo: string;
+}
+
+const { preguntas, prefijo } = Astro.props;
+const conContenido = await Promise.all(preguntas.map(async (p) => ({ p, ...(await render(p)) })));
+---
+
+<div class="acordeon divide-y divide-border border-y border-border" data-acordeon>
+  {
+    conContenido.map(({ p, Content }) => (
+      <div>
+        <h3 class="text-base font-semibold">
+          <button
+            type="button"
+            id={`${prefijo}-boton-${p.id}`}
+            class="group flex min-h-16 w-full items-center justify-between gap-6 py-4 text-left text-text transition-colors hover:text-gold-light"
+            aria-expanded="false"
+            aria-controls={`${prefijo}-panel-${p.id}`}
+          >
+            <span>{p.data.pregunta}</span>
+            <Icono
+              nombre="chevron-down"
+              tamano={20}
+              class="shrink-0 text-gold transition-transform duration-300 group-aria-expanded:rotate-180"
+            />
+          </button>
+        </h3>
+        <div
+          id={`${prefijo}-panel-${p.id}`}
+          role="region"
+          aria-labelledby={`${prefijo}-boton-${p.id}`}
+          class="prosa pb-6 pr-10 text-[0.9375rem] leading-relaxed"
+          hidden
+        >
+          <Content />
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-acordeon]").forEach((acordeon) => {
+    acordeon.querySelectorAll<HTMLButtonElement>("button[aria-controls]").forEach((boton) => {
+      const panel = document.getElementById(boton.getAttribute("aria-controls")!)!;
+      const alternar = (abrir: boolean) => {
+        boton.setAttribute("aria-expanded", String(abrir));
+        panel.hidden = !abrir;
+      };
+      boton.addEventListener("click", () => alternar(boton.getAttribute("aria-expanded") !== "true"));
+      boton.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") alternar(false);
+      });
+      panel.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          alternar(false);
+          boton.focus();
+        }
+      });
+    });
+  });
+</script>

@@ -1,0 +1,106 @@
+---
+import { Picture } from "astro:assets";
+import monograma from "../assets/monograma-hero.png";
+import Icono, { type NombreIcono } from "./Icono.astro";
+import IconoWhatsApp from "./IconoWhatsApp.astro";
+import { sitio } from "../config/sitio";
+
+const destacadas: { icono: NombreIcono; titulo: string; texto: string; href: string }[] = [
+  {
+    icono: "briefcase",
+    titulo: "Derecho laboral",
+    texto: "Defensa de derechos de personas trabajadoras del sector público y privado.",
+    href: "#areas",
+  },
+  {
+    icono: "graduation-cap",
+    titulo: "Docentes y personal MEP",
+    texto: "Procesos disciplinarios, acciones correctivas y nombramientos.",
+    href: "#docentes-mep",
+  },
+  {
+    icono: "landmark",
+    titulo: "Contencioso administrativo",
+    texto: "Demandas contra el Estado por derechos laborales o financieros.",
+    href: "#areas",
+  },
+];
+---
+
+<section id="inicio" aria-labelledby="titulo-inicio" class="relative overflow-hidden">
+  <!-- Resplandor dorado decorativo -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -right-40 -top-40 size-[42rem] rounded-full bg-[radial-gradient(circle,rgb(200_152_63/0.14),transparent_65%)]"
+  >
+  </div>
+
+  <div class="contenedor relative grid items-center gap-10 pb-14 pt-12 md:pt-16 lg:grid-cols-[1.25fr_1fr] lg:gap-16 lg:pb-20 lg:pt-20">
+    <div>
+      <p class="etiqueta">Abogado y notario · Carné {sitio.carne}</p>
+      <span class="linea-dorada mt-5" aria-hidden="true"></span>
+      <h1 id="titulo-inicio" class="mt-6">
+        Defensa de sus derechos laborales y frente a la Administración Pública
+      </h1>
+      <p class="prosa mt-6 text-lg text-text-muted">
+        Abogado y notario en Puriscal. Atención a docentes del MEP, funcionarios públicos y personas en
+        procesos contra el Estado.
+      </p>
+      <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <a href="#consulta" class="boton boton-primario">
+          Solicitar consulta
+          <Icono nombre="arrow-right" tamano={18} />
+        </a>
+        <a
+          href={sitio.whatsapp.general}
+          target="_blank"
+          rel="noopener"
+          class="boton boton-secundario"
+          data-evento="clic_whatsapp"
+          data-origen="inicio"
+        >
+          <IconoWhatsApp tamano={18} class="text-gold" />
+          Escribir por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <div class="relative mx-auto hidden w-full max-w-[22rem] md:block lg:max-w-[26rem]" aria-hidden="true">
+      <div class="absolute inset-6 rounded-full border border-gold/15"></div>
+      <Picture
+        src={monograma}
+        alt=""
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
+        widths={[360, 540, 720]}
+        sizes="(min-width: 1024px) 416px, 352px"
+        loading="eager"
+        fetchpriority="high"
+        class="relative h-auto w-full mix-blend-lighten"
+      />
+    </div>
+  </div>
+
+  <div class="contenedor relative pb-16 lg:pb-20">
+    <ul class="grid gap-4 md:grid-cols-3">
+      {
+        destacadas.map((area) => (
+          <li>
+            <a
+              href={area.href}
+              class="tarjeta group flex h-full flex-col gap-3 p-6 transition-colors hover:border-gold-dark hover:bg-surface-2"
+            >
+              <Icono nombre={area.icono} tamano={28} class="text-gold" />
+              <h2 class="font-sans text-lg font-semibold text-text">{area.titulo}</h2>
+              <p class="text-[0.9375rem] leading-relaxed">{area.texto}</p>
+              <span class="mt-auto inline-flex items-center gap-1.5 pt-2 text-sm font-medium text-gold">
+                Ver más
+                <Icono nombre="arrow-right" tamano={16} class="transition-transform group-hover:translate-x-1" />
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

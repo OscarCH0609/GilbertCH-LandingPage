@@ -1,0 +1,23 @@
+---
+interface Props {
+  id: string;
+  etiqueta: string;
+  titulo: string;
+  centrado?: boolean;
+}
+
+const { id, etiqueta, titulo, centrado = false } = Astro.props;
+---
+
+<div class:list={["aparecer", centrado && "mx-auto text-center"]}>
+  <p class="etiqueta">{etiqueta}</p>
+  <span class:list={["linea-dorada mt-4", centrado && "mx-auto"]} aria-hidden="true"></span>
+  <h2 id={id} class="mt-5">{titulo}</h2>
+  {
+    Astro.slots.has("default") && (
+      <div class:list={["prosa mt-5", centrado && "mx-auto"]}>
+        <slot />
+      </div>
+    )
+  }
+</div>

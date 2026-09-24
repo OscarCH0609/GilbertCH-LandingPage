@@ -1,7 +1,7 @@
 ---
 pregunta: ¿Atienden consultas virtuales?
 grupo: general
-orden: 3
+orden: 4
 ---
 
-Sí. Si no puede desplazarse hasta la oficina, podemos atenderle por videollamada. Indíquelo en el formulario al elegir la modalidad preferida.
+Sí. Si no puede desplazarse hasta la oficina, podemos atenderle por videollamada. Indíquelo al llamar para coordinar su cita.

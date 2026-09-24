@@ -3,7 +3,6 @@ titulo: Derecho de familia
 icono: users
 resumen: Matrimonios y divorcios, procesos sucesorios, pensiones alimentarias y procesos de paternidad.
 orden: 4
-areaFormulario: Familia
 servicios:
   - Matrimonios y divorcios.
   - Procesos sucesorios.

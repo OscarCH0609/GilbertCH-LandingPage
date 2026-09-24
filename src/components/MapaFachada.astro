@@ -22,7 +22,9 @@ import { sitio } from "../config/sitio";
     <span class="inline-flex size-14 items-center justify-center rounded-full border border-gold-dark bg-bg">
       <Icono nombre="map-pin" tamano={26} class="text-gold" />
     </span>
-    <p class="max-w-xs text-sm text-text">{sitio.direccion.linea}, {sitio.direccion.provincia}</p>
+    <a href={sitio.mapas.google} target="_blank" rel="noopener" class="max-w-xs text-sm text-text hover:text-gold-light" data-evento="clic_como_llegar" data-origen="mapa">
+      {sitio.direccion.linea}, {sitio.direccion.provincia}
+    </a>
     <button type="button" class="boton boton-secundario bg-bg" data-cargar-mapa>
       <Icono nombre="map-pin" tamano={18} class="text-gold" />
       Ver mapa interactivo

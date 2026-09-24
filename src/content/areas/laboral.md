@@ -3,7 +3,6 @@ titulo: Derecho laboral
 icono: briefcase
 resumen: Defensa de los derechos de personas trabajadoras del sector público y privado, desde el reclamo inicial hasta el proceso judicial.
 orden: 1
-areaFormulario: Laboral
 servicios:
   - Despidos, liquidaciones y cálculo de derechos laborales.
   - Conflictos de funcionarios públicos con su institución.

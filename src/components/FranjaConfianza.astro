@@ -2,9 +2,9 @@
 import Icono, { type NombreIcono } from "./Icono.astro";
 import { sitio } from "../config/sitio";
 
-const datos: { icono: NombreIcono; etiqueta: string; valor: string }[] = [
+const datos: { icono: NombreIcono; etiqueta: string; valor: string; href?: string }[] = [
   { icono: "badge-check", etiqueta: "Carné profesional", valor: sitio.carne },
-  { icono: "map-pin", etiqueta: "Oficina", valor: sitio.direccion.linea },
+  { icono: "map-pin", etiqueta: "Oficina", valor: sitio.direccion.linea, href: sitio.mapas.google },
   { icono: "clock", etiqueta: "Horario", valor: sitio.horarioResumido },
 ];
 ---
@@ -17,7 +17,21 @@ const datos: { icono: NombreIcono; etiqueta: string; valor: string }[] = [
           <Icono nombre={dato.icono} tamano={26} class="shrink-0 text-gold" />
           <div>
             <p class="etiqueta">{dato.etiqueta}</p>
-            <p class="mt-0.5 text-[0.9375rem] font-medium text-text">{dato.valor}</p>
+            <p class="mt-0.5 text-[0.9375rem] font-medium text-text">
+              {dato.href ? (
+                <a href={dato.href} target="_blank" rel="noopener" class="hover:text-gold-light" data-evento="clic_como_llegar" data-origen="franja">
+                  {dato.valor}
+                </a>
+              ) : (
+                // Cada bloque separado por " · " se mantiene en una sola línea al ajustar el texto.
+                dato.valor.split(" · ").map((bloque, i) => (
+                  <>
+                    {i > 0 && " · "}
+                    <span class="whitespace-nowrap">{bloque}</span>
+                  </>
+                ))
+              )}
+            </p>
           </div>
         </li>
       ))

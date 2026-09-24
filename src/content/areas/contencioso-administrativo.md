@@ -3,7 +3,6 @@ titulo: Contencioso administrativo
 icono: landmark
 resumen: Demandas contra el Estado y sus instituciones por derechos laborales o financieros que no han sido reconocidos.
 orden: 3
-areaFormulario: Contencioso administrativo
 servicios:
   - Demandas contra el Estado por derechos laborales y financieros.
   - Impugnación de actos y resoluciones administrativas.

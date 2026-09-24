@@ -1,7 +1,5 @@
 ---
-import { getCollection } from "astro:content";
 import EncabezadoSeccion from "./EncabezadoSeccion.astro";
-import Acordeon from "./Acordeon.astro";
 import Icono, { type NombreIcono } from "./Icono.astro";
 import IconoWhatsApp from "./IconoWhatsApp.astro";
 import { sitio } from "../config/sitio";
@@ -10,7 +8,7 @@ const servicios: { icono: NombreIcono; titulo: string; texto: string }[] = [
   {
     icono: "shield",
     titulo: "Procesos disciplinarios y acciones correctivas",
-    texto: "Defensa desde el traslado de cargos: revisión del expediente, respuesta, prueba y audiencia.",
+    texto: "Defensa desde el traslado de cargos: revisión del expediente, respuesta, prueba y audiencia, entre otros.",
   },
   {
     // PENDIENTE: confirmar la denominación y la sigla exactas del reglamento vigente (REAC o REA).
@@ -21,13 +19,14 @@ const servicios: { icono: NombreIcono; titulo: string; texto: string }[] = [
   {
     icono: "graduation-cap",
     titulo: "Asignación de lecciones y nombramientos en propiedad",
-    texto: "Reclamos por lecciones, recargos o nombramientos que no se asignaron conforme a derecho.",
+    texto: "Reclamos por lecciones, recargos o nombramientos, entre otros, que no se asignaron conforme a derecho.",
+  },
+  {
+    icono: "presentation",
+    titulo: "Capacitaciones a centros educativos",
+    texto: "Capacitaciones para centros educativos públicos y privados sobre temas legales de interés para su personal.",
   },
 ];
-
-const preguntas = (await getCollection("faq", (p) => p.data.grupo === "mep")).sort(
-  (a, b) => a.data.orden - b.data.orden,
-);
 ---
 
 <section id="docentes-mep" aria-labelledby="titulo-mep" class="seccion relative overflow-hidden border-y border-border bg-surface">
@@ -45,7 +44,8 @@ const preguntas = (await getCollection("faq", (p) => p.data.grupo === "mep")).so
       >
         <p>
           La defensa de docentes y personal del Ministerio de Educación Pública es el principal campo de experiencia
-          del consultorio. Actuar a tiempo marca la diferencia: consulte apenas reciba una notificación.
+          del consultorio. Actuar a tiempo marca la diferencia: consulte apenas reciba una notificación. Además,
+          brindamos capacitaciones a centros educativos públicos y privados.
         </p>
       </EncabezadoSeccion>
       <div class="aparecer lg:justify-self-end">
@@ -63,7 +63,7 @@ const preguntas = (await getCollection("faq", (p) => p.data.grupo === "mep")).so
       </div>
     </div>
 
-    <ul class="mt-12 grid gap-5 md:grid-cols-3">
+    <ul class="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
       {
         servicios.map((s) => (
           <li class="aparecer rounded border border-border bg-bg p-7">
@@ -74,13 +74,5 @@ const preguntas = (await getCollection("faq", (p) => p.data.grupo === "mep")).so
         ))
       }
     </ul>
-
-    <div class="aparecer mt-16 grid gap-8 lg:grid-cols-[4fr_8fr]">
-      <div>
-        <p class="etiqueta">Preguntas frecuentes</p>
-        <p class="mt-3 font-serif text-3xl font-semibold text-text">Dudas comunes de docentes</p>
-      </div>
-      <Acordeon preguntas={preguntas} prefijo="mep" />
-    </div>
   </div>
 </section>

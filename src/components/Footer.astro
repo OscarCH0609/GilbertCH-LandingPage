@@ -12,7 +12,9 @@ const anio = new Date().getFullYear();
       <Image src={logo} alt="Gilbert Charpentier, Consultorio Jurídico" widths={[200, 400]} sizes="200px" class="h-auto w-[200px]" />
       <p class="mt-5 max-w-sm">
         {sitio.profesion} · Carné profesional {sitio.carne}<br />
-        {sitio.direccion.linea}, {sitio.direccion.provincia}, Costa Rica
+        <a href={sitio.mapas.google} target="_blank" rel="noopener" class="hover:text-gold-light" data-evento="clic_como_llegar" data-origen="pie">
+          {sitio.direccion.linea}, {sitio.direccion.provincia}, Costa Rica
+        </a>
       </p>
     </div>
 
@@ -55,7 +57,7 @@ const anio = new Date().getFullYear();
 
   <div class="contenedor mt-12 border-t border-border pt-8 text-xs leading-relaxed">
     <p class="max-w-3xl">
-      La información de este sitio es de carácter general y no constituye asesoría legal. El envío de una consulta no
+      La información de este sitio es de carácter general y no constituye asesoría legal. Solicitar una cita no
       establece una relación abogado-cliente.
     </p>
     <p class="mt-4">© {anio} {sitio.nombreCompleto}. Todos los derechos reservados.</p>

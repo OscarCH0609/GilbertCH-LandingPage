@@ -7,13 +7,13 @@ import { sitio } from "../config/sitio";
 <LegalLayout
   titulo="Aviso legal"
   descripcion="Identificación del titular del sitio, naturaleza informativa del contenido y limitación de responsabilidad."
-  actualizado="22 de septiembre de 2026"
+  actualizado="23 de septiembre de 2026"
 >
   <h2>Titular del sitio</h2>
   <ul>
     <li>Titular: {sitio.nombre}, {sitio.profesion.toLowerCase()}.</li>
     <li>Carné del Colegio de Abogados y Abogadas de Costa Rica: {sitio.carne}.</li>
-    <li>Dirección: {sitio.direccion.linea}, {sitio.direccion.senas}</li>
+    <li>Dirección: <a href={sitio.mapas.google} target="_blank" rel="noopener">{sitio.direccion.linea}, {sitio.direccion.senas}</a></li>
     <li>Teléfonos: {sitio.telefonos.map((t) => t.visible).join(" y ")}.</li>
     <li>Correo: <a href={`mailto:${sitio.correo}`}>{sitio.correo}</a>.</li>
   </ul>
@@ -27,7 +27,7 @@ import { sitio } from "../config/sitio";
 
   <h2>Relación abogado-cliente</h2>
   <p>
-    El envío del formulario de consulta, un mensaje de WhatsApp o un correo electrónico no crea una relación
+    Una llamada, la solicitud de una cita, un mensaje de WhatsApp o un correo electrónico no crea una relación
     abogado-cliente ni obliga al titular a aceptar el caso. La relación profesional inicia únicamente cuando ambas
     partes acuerdan los servicios y sus condiciones.
   </p>

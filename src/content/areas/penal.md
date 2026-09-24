@@ -3,7 +3,6 @@ titulo: Derecho penal
 icono: shield
 resumen: Defensa técnica y representación de personas ofendidas en procesos penales.
 orden: 5
-areaFormulario: Penal
 servicios:
   - Defensa técnica en procesos penales.
   - Representación y querellas de personas ofendidas.

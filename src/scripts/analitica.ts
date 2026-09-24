@@ -1,7 +1,7 @@
 // Eventos de conversión con analítica sin cookies (Plausible).
 // Cualquier elemento con data-evento="nombre" registra ese evento al pulsarlo.
 
-export type EventoConversion = "clic_whatsapp" | "envio_formulario" | "clic_llamar" | "clic_como_llegar";
+export type EventoConversion = "clic_whatsapp" | "clic_llamar" | "clic_como_llegar";
 
 declare global {
   interface Window {

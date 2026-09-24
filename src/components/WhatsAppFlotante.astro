@@ -16,16 +16,3 @@ import { sitio } from "../config/sitio";
 >
   <IconoWhatsApp tamano={28} />
 </a>
-
-<script>
-  // Se oculta mientras el formulario (#consulta) está visible para no tapar el botón de envío.
-  const boton = document.getElementById("whatsapp-flotante")!;
-  const consulta = document.getElementById("consulta");
-  if (consulta && "IntersectionObserver" in window) {
-    new IntersectionObserver(([entrada]) => {
-      boton.toggleAttribute("data-oculto", entrada.isIntersecting);
-      if (entrada.isIntersecting) boton.setAttribute("tabindex", "-1");
-      else boton.removeAttribute("tabindex");
-    }).observe(consulta);
-  }
-</script>

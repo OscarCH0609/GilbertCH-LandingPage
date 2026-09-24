@@ -1,30 +1,9 @@
 ---
 import { Picture } from "astro:assets";
 import monograma from "../assets/monograma-hero.png";
-import Icono, { type NombreIcono } from "./Icono.astro";
+import Icono from "./Icono.astro";
 import IconoWhatsApp from "./IconoWhatsApp.astro";
 import { sitio } from "../config/sitio";
-
-const destacadas: { icono: NombreIcono; titulo: string; texto: string; href: string }[] = [
-  {
-    icono: "briefcase",
-    titulo: "Derecho laboral",
-    texto: "Defensa de derechos de personas trabajadoras del sector público y privado.",
-    href: "#areas",
-  },
-  {
-    icono: "graduation-cap",
-    titulo: "Docentes y personal MEP",
-    texto: "Procesos disciplinarios, acciones correctivas y nombramientos.",
-    href: "#docentes-mep",
-  },
-  {
-    icono: "landmark",
-    titulo: "Contencioso administrativo",
-    texto: "Demandas contra el Estado por derechos laborales o financieros.",
-    href: "#areas",
-  },
-];
 ---
 
 <section id="inicio" aria-labelledby="titulo-inicio" class="relative overflow-hidden">
@@ -40,14 +19,13 @@ const destacadas: { icono: NombreIcono; titulo: string; texto: string; href: str
       <p class="etiqueta">Abogado y notario · Carné {sitio.carne}</p>
       <span class="linea-dorada mt-5" aria-hidden="true"></span>
       <h1 id="titulo-inicio" class="mt-6">
-        Defensa de sus derechos laborales y frente a la Administración Pública
+        Defensa de sus derechos
       </h1>
       <p class="prosa mt-6 text-lg text-text-muted">
-        Abogado y notario en Puriscal. Atención a docentes del MEP, funcionarios públicos y personas en
-        procesos contra el Estado.
+        Atendemos sus necesidades para defender sus derechos ante el Estado, el MEP o terceras personas.
       </p>
       <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-        <a href="#consulta" class="boton boton-primario">
+        <a href="#contacto" class="boton boton-primario">
           Solicitar consulta
           <Icono nombre="arrow-right" tamano={18} />
         </a>
@@ -79,28 +57,5 @@ const destacadas: { icono: NombreIcono; titulo: string; texto: string; href: str
         class="relative h-auto w-full mix-blend-lighten"
       />
     </div>
-  </div>
-
-  <div class="contenedor relative pb-16 lg:pb-20">
-    <ul class="grid gap-4 md:grid-cols-3">
-      {
-        destacadas.map((area) => (
-          <li>
-            <a
-              href={area.href}
-              class="tarjeta group flex h-full flex-col gap-3 p-6 transition-colors hover:border-gold-dark hover:bg-surface-2"
-            >
-              <Icono nombre={area.icono} tamano={28} class="text-gold" />
-              <h2 class="font-sans text-lg font-semibold text-text">{area.titulo}</h2>
-              <p class="text-[0.9375rem] leading-relaxed">{area.texto}</p>
-              <span class="mt-auto inline-flex items-center gap-1.5 pt-2 text-sm font-medium text-gold">
-                Ver más
-                <Icono nombre="arrow-right" tamano={16} class="transition-transform group-hover:translate-x-1" />
-              </span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
   </div>
 </section>

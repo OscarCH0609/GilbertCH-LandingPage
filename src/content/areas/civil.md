@@ -3,7 +3,6 @@ titulo: Derecho civil
 icono: file-text
 resumen: Contratos, cobros, propiedades y conflictos entre particulares, con enfoque preventivo.
 orden: 6
-areaFormulario: Civil
 servicios:
   - Redacción y revisión de contratos.
   - Procesos de cobro.

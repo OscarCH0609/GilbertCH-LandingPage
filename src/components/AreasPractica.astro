@@ -73,6 +73,7 @@ const conContenido = await Promise.all(areas.map(async (area) => ({ area, ...(aw
                     <span>{servicio}</span>
                   </li>
                 ))}
+                <li class="pl-[30px]">Entre otros.</li>
               </ul>
             </>
           )}
@@ -94,7 +95,7 @@ const conContenido = await Promise.all(areas.map(async (area) => ({ area, ...(aw
             </>
           )}
 
-          <a href="#consulta" class="boton boton-primario mt-9 w-full sm:w-auto" data-preseleccionar={area.data.areaFormulario}>
+          <a href="#contacto" class="boton boton-primario mt-9 w-full sm:w-auto" data-ir-contacto>
             Consultar sobre este tema
             <Icono nombre="arrow-right" tamano={18} />
           </a>
@@ -105,15 +106,13 @@ const conContenido = await Promise.all(areas.map(async (area) => ({ area, ...(aw
 </section>
 
 <script>
-  import { preseleccionarArea } from "../scripts/preseleccion";
-
   document.querySelectorAll<HTMLButtonElement>("[data-abrir-area]").forEach((boton) => {
     const dialogo = document.getElementById(`area-${boton.dataset.abrirArea}`) as HTMLDialogElement | null;
     if (!dialogo) return;
     boton.addEventListener("click", () => dialogo.showModal());
-    // Al cerrar se devuelve el foco al botón, salvo que se vaya al formulario.
+    // Al cerrar se devuelve el foco al botón, salvo que se vaya a la sección de contacto.
     dialogo.addEventListener("close", () => {
-      if (dialogo.dataset.haciaFormulario) delete dialogo.dataset.haciaFormulario;
+      if (dialogo.dataset.haciaContacto) delete dialogo.dataset.haciaContacto;
       else boton.focus();
     });
     // Cerrar al pulsar fuera del contenido.
@@ -121,12 +120,17 @@ const conContenido = await Promise.all(areas.map(async (area) => ({ area, ...(aw
       if (e.target === dialogo) dialogo.close();
     });
     dialogo.querySelector("[data-cerrar-dialogo]")?.addEventListener("click", () => dialogo.close());
-    dialogo.querySelector<HTMLAnchorElement>("[data-preseleccionar]")?.addEventListener("click", (e) => {
+    dialogo.querySelector<HTMLAnchorElement>("[data-ir-contacto]")?.addEventListener("click", (e) => {
+      const contacto = document.getElementById("contacto");
+      if (!contacto) return;
       e.preventDefault();
-      const area = (e.currentTarget as HTMLAnchorElement).dataset.preseleccionar!;
-      dialogo.dataset.haciaFormulario = "1";
+      dialogo.dataset.haciaContacto = "1";
       dialogo.close();
-      preseleccionarArea(area);
+      const reducir = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      contacto.scrollIntoView({ behavior: reducir ? "auto" : "smooth" });
+      history.replaceState(null, "", "#contacto");
+      // El foco pasa al primer teléfono, que es el medio para agendar la cita.
+      contacto.querySelector<HTMLAnchorElement>("a[href^='tel:']")?.focus({ preventScroll: true });
     });
   });
 </script>

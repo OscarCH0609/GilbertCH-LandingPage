@@ -3,7 +3,6 @@ titulo: Derecho constitucional
 icono: scale
 resumen: Recursos de amparo y otras garantías ante la Sala Constitucional cuando una autoridad lesiona sus derechos fundamentales.
 orden: 2
-areaFormulario: Constitucional
 servicios:
   - Recursos de amparo contra actuaciones u omisiones de la administración pública.
   - Recursos de hábeas corpus.

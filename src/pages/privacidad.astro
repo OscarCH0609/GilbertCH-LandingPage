@@ -7,13 +7,13 @@ import { sitio } from "../config/sitio";
 
 <LegalLayout
   titulo="Política de privacidad"
-  descripcion="Cómo se tratan los datos personales enviados mediante el formulario de consulta, conforme a la Ley 8968."
-  actualizado="22 de septiembre de 2026"
+  descripcion="Cómo se tratan los datos personales que usted comparte al contactar el consultorio, conforme a la Ley 8968."
+  actualizado="23 de septiembre de 2026"
 >
   <p>
-    Esta política explica cómo se tratan los datos personales que usted envía mediante este sitio, conforme a la Ley de
-    Protección de la Persona frente al Tratamiento de sus Datos Personales (Ley 8968) y su reglamento.
-    Versión {sitio.versionPrivacidad}.
+    Esta política explica cómo se tratan los datos personales que usted comparte al contactar el consultorio por
+    teléfono, WhatsApp o correo electrónico, conforme a la Ley de Protección de la Persona frente al Tratamiento de sus
+    Datos Personales (Ley 8968) y su reglamento. Versión {sitio.versionPrivacidad}.
   </p>
 
   <h2>Responsable</h2>
@@ -23,36 +23,15 @@ import { sitio } from "../config/sitio";
   </p>
 
   <h2>Datos que se recogen</h2>
-  <ul>
-    <li>Nombre completo.</li>
-    <li>Teléfono o WhatsApp.</li>
-    <li>Correo electrónico (opcional).</li>
-    <li>Área de consulta, modalidad preferida y una descripción breve de su situación.</li>
-    <li>La fecha de envío y la versión de esta política que usted aceptó.</li>
-  </ul>
   <p>
-    Le pedimos no incluir documentos ni datos sensibles (por ejemplo, de salud o información de terceros) en la
-    descripción: los revisaremos personalmente durante la consulta.
+    Este sitio no cuenta con formularios y no recoge datos personales por sí mismo. Al comunicarse con el consultorio,
+    usted puede compartir datos como su nombre, su número de teléfono y una descripción de su situación.
   </p>
 
   <h2>Finalidad</h2>
   <p>
-    Los datos se utilizan únicamente para responder su solicitud y coordinar una consulta. No se utilizan con fines
+    Los datos se utilizan únicamente para atender su solicitud y coordinar una cita. No se utilizan con fines
     publicitarios ni se ceden a terceros para esos fines.
-  </p>
-
-  <h2>Dónde se almacenan</h2>
-  <p>El sitio se apoya en los siguientes proveedores, cuyos servidores pueden estar ubicados fuera de Costa Rica:</p>
-  <ul>
-    <li>Supabase: almacenamiento de las solicitudes en una base de datos protegida.</li>
-    <li>Resend: envío de la notificación por correo al abogado (sin la descripción completa).</li>
-    <li>Cloudflare: alojamiento del sitio y verificación antispam (Turnstile).</li>
-  </ul>
-
-  <h2>Plazo de conservación</h2>
-  <p>
-    Las solicitudes que no se convierten en una relación profesional se conservan por un máximo de 12 meses y luego se
-    eliminan.
   </p>
 
   <h2>Sus derechos</h2>
@@ -60,11 +39,5 @@ import { sitio } from "../config/sitio";
     Usted puede ejercer sus derechos de acceso, rectificación y supresión de sus datos, así como revocar su
     consentimiento, escribiendo a <a href={`mailto:${sitio.correo}`}>{sitio.correo}</a>. También puede acudir a la
     Agencia de Protección de Datos de los Habitantes (PRODHAB).
-  </p>
-
-  <h2>Consentimiento</h2>
-  <p>
-    Al marcar la casilla del formulario, usted otorga su consentimiento informado, expreso y previo para el tratamiento
-    de sus datos con la finalidad descrita. La casilla nunca está marcada por defecto.
   </p>
 </LegalLayout>

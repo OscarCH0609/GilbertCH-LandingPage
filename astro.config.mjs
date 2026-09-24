@@ -10,17 +10,12 @@ const env = loadEnv(process.env.NODE_ENV ?? "production", process.cwd(), "");
 // Dominio definitivo pendiente de confirmar (ver README).
 const SITIO = env.SITE_URL || "https://gilbertcharpentier.com";
 
-// Orígenes externos permitidos por la Content-Security-Policy.
-const SUPABASE = env.PUBLIC_SUPABASE_ORIGIN || "https://*.supabase.co";
-
 export default defineConfig({
   site: SITIO,
   trailingSlash: "never",
   build: { format: "file" },
-  integrations: [
-    react(),
-    sitemap({ filter: (pagina) => !pagina.includes("/gracias") }),
-  ],
+  // React solo se usa en el servidor para renderizar los íconos de Lucide.
+  integrations: [react(), sitemap()],
   vite: { plugins: [tailwindcss()] },
   image: { layout: "constrained" },
   // Shiki usa estilos en línea incompatibles con la CSP; el sitio no muestra código.
@@ -32,14 +27,14 @@ export default defineConfig({
         "default-src 'self'",
         "img-src 'self' data:",
         "font-src 'self'",
-        `connect-src 'self' ${SUPABASE} https://challenges.cloudflare.com https://plausible.io`,
-        "frame-src https://www.google.com https://challenges.cloudflare.com",
+        "connect-src 'self' https://plausible.io",
+        "frame-src https://www.google.com",
         "form-action 'self'",
         "base-uri 'self'",
         "object-src 'none'",
       ],
       scriptDirective: {
-        resources: ["'self'", "https://challenges.cloudflare.com", "https://plausible.io"],
+        resources: ["'self'", "https://plausible.io"],
       },
     },
   },

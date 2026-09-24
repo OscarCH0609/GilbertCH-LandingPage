@@ -16,8 +16,10 @@ import { sitio } from "../config/sitio";
           <div>
             <h3 class="etiqueta">Dirección</h3>
             <address class="mt-2 not-italic text-text">
-              {sitio.direccion.linea}<br />
-              <span class="text-text-muted">{sitio.direccion.senas}</span>
+              <a href={sitio.mapas.google} target="_blank" rel="noopener" class="hover:text-gold-light" data-evento="clic_como_llegar" data-origen="direccion">
+                {sitio.direccion.linea}<br />
+                <span class="text-text-muted">{sitio.direccion.senas}</span>
+              </a>
             </address>
           </div>
         </div>
@@ -38,6 +40,7 @@ import { sitio } from "../config/sitio";
                 ))
               }
             </ul>
+            <p class="mt-2 text-sm text-text-subtle">Las citas se agendan únicamente por estos números.</p>
           </div>
         </div>
 

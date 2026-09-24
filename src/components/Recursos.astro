@@ -6,7 +6,7 @@ import Acordeon from "./Acordeon.astro";
 const todas = (await getCollection("faq")).sort((a, b) => a.data.orden - b.data.orden);
 const generales = todas.filter((p) => p.data.grupo === "general");
 
-// Esquema FAQPage con todas las preguntas visibles en la página (generales y MEP).
+// Esquema FAQPage con todas las preguntas visibles en la página.
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",

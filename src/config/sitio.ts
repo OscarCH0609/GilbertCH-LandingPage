@@ -6,10 +6,10 @@ const WHATSAPP_NUMERO = "50684713149"; // PENDIENTE: confirmar que 8471-3149 es 
 const whatsapp = (mensaje: string) =>
   `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
 
-// PENDIENTE: coordenadas GPS exactas de la oficina. Mientras sean null, los enlaces
-// de navegación y el mapa usan la dirección textual.
-const COORDENADAS: { lat: number; lng: number } | null = null;
-const CONSULTA_MAPA = "Barbacoas, Puriscal, San José, Costa Rica";
+// Ficha de Google Maps de la oficina ("Lic. Gilbert Charpentier"). Todos los enlaces a la
+// dirección apuntan aquí; las coordenadas son las de esa misma ficha.
+const ENLACE_MAPS = "https://maps.app.goo.gl/qMyiLJB3o2U2fPRe9";
+const COORDENADAS = { lat: 9.862276, lng: -84.352937 };
 
 export const sitio = {
   nombre: "Gilbert Charpentier",
@@ -37,13 +37,13 @@ export const sitio = {
   },
   coordenadas: COORDENADAS,
 
-  // PENDIENTE: horario por confirmar. Se usa la interpretación más probable del texto recibido.
   horario: [
-    { dias: "Lunes a viernes", horas: "5:00 p. m. – 9:00 p. m.", schemaDias: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], abre: "17:00", cierra: "21:00" },
+    { dias: "Lunes a miércoles", horas: "5:00 p. m. – 9:00 p. m.", schemaDias: ["Monday", "Tuesday", "Wednesday"], abre: "17:00", cierra: "21:00" },
+    { dias: "Jueves y viernes", horas: "1:00 p. m. – 9:00 p. m.", schemaDias: ["Thursday", "Friday"], abre: "13:00", cierra: "21:00" },
     { dias: "Sábados", horas: "8:00 a. m. – 5:00 p. m.", schemaDias: ["Saturday"], abre: "08:00", cierra: "17:00" },
   ],
-  horarioResumido: "L–V 5–9 p. m. · Sáb. 8 a. m.–5 p. m.",
-  notaHorario: "De preferencia, coordine su cita previa de forma presencial o virtual.",
+  horarioResumido: "L–Mi 5–9 p. m. · J–V 1–9 p. m. · Sáb. 8 a. m.–5 p. m.",
+  notaHorario: "Las citas se coordinan únicamente por teléfono, llamando a la oficina o al celular.",
 
   whatsapp: {
     general: whatsapp("Hola, deseo solicitar una consulta legal."),
@@ -51,15 +51,9 @@ export const sitio = {
   },
 
   mapas: {
-    google: COORDENADAS
-      ? `https://www.google.com/maps/dir/?api=1&destination=${COORDENADAS.lat},${COORDENADAS.lng}`
-      : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(CONSULTA_MAPA)}`,
-    waze: COORDENADAS
-      ? `https://waze.com/ul?ll=${COORDENADAS.lat},${COORDENADAS.lng}&navigate=yes`
-      : `https://waze.com/ul?q=${encodeURIComponent(CONSULTA_MAPA)}&navigate=yes`,
-    embed: COORDENADAS
-      ? `https://www.google.com/maps?q=${COORDENADAS.lat},${COORDENADAS.lng}&z=16&output=embed`
-      : `https://www.google.com/maps?q=${encodeURIComponent(CONSULTA_MAPA)}&z=14&output=embed`,
+    google: ENLACE_MAPS,
+    waze: `https://waze.com/ul?ll=${COORDENADAS.lat},${COORDENADAS.lng}&navigate=yes`,
+    embed: `https://www.google.com/maps?q=${COORDENADAS.lat},${COORDENADAS.lng}&z=16&output=embed`,
   },
 
   // Consulta pública de personas agremiadas del Colegio de Abogados y Abogadas.
@@ -70,8 +64,8 @@ export const sitio = {
 
   areasServidas: ["Puriscal", "Turrubares", "Mora", "San José", "Costa Rica"],
 
-  // Versión de la política de privacidad que acepta la persona en el formulario.
-  versionPrivacidad: "2026-09-v1",
+  // Versión vigente de la política de privacidad.
+  versionPrivacidad: "2026-09-v2",
 } as const;
 
 export const navegacion = [
@@ -82,17 +76,4 @@ export const navegacion = [
   { id: "notariado", texto: "Notariado" },
   { id: "recursos", texto: "Recursos" },
   { id: "contacto", texto: "Contacto" },
-] as const;
-
-// Opciones del campo "Área de consulta" del formulario.
-export const areasFormulario = [
-  "Laboral",
-  "Docentes y personal MEP",
-  "Contencioso administrativo",
-  "Constitucional",
-  "Familia",
-  "Penal",
-  "Civil",
-  "Servicios notariales",
-  "No estoy seguro",
 ] as const;

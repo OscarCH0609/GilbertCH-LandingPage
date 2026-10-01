@@ -64,6 +64,22 @@ export const sitio = {
 
   areasServidas: ["Puriscal", "Turrubares", "Mora", "San José", "Costa Rica"],
 
+  // Cuentas para el pago de honorarios (sección "Métodos de pago").
+  pagos: [
+    { entidad: "Banco Nacional", tipo: "Cuenta IBAN", moneda: "Colones", numero: "CR67015101420010293198" },
+    { entidad: "Banco Nacional", tipo: "Cuenta IBAN", moneda: "Dólares", numero: "CR76015101420020045610" },
+    { entidad: "Banco de Costa Rica", tipo: "Cuenta IBAN", moneda: "Colones", numero: "CR25015202001151695297" },
+    { entidad: "Banco Popular", tipo: "Cuenta IBAN", moneda: "Colones", numero: "CR42016100011105006428" },
+    { entidad: "SINPE Móvil", tipo: "Número de teléfono", moneda: "Colones", numero: "84713149" },
+  ],
+
+  // Créditos del desarrollador del sitio (se muestran en el pie).
+  desarrollador: {
+    nombre: "Óscar Charpentier Zúñiga",
+    correo: "oscarcharp1167@gmail.com",
+    telefono: { visible: "+506 8730-6617", href: "tel:+50687306617" },
+  },
+
   // Versión vigente de la política de privacidad.
   versionPrivacidad: "2026-09-v2",
 } as const;
@@ -71,9 +87,11 @@ export const sitio = {
 export const navegacion = [
   { id: "inicio", texto: "Inicio" },
   { id: "abogado", texto: "El abogado" },
+  { id: "experiencia", texto: "Experiencia" },
   { id: "areas", texto: "Áreas" },
   { id: "docentes-mep", texto: "Docentes MEP" },
   { id: "notariado", texto: "Notariado" },
   { id: "recursos", texto: "Recursos" },
   { id: "contacto", texto: "Contacto" },
+  { id: "pagos", texto: "Métodos de pago" },
 ] as const;

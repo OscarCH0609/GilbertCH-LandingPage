@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import logo from "../assets/logo-encabezado.png";
+import Icono from "./Icono.astro";
 import { sitio } from "../config/sitio";
 
 const anio = new Date().getFullYear();
@@ -61,5 +62,36 @@ const anio = new Date().getFullYear();
       establece una relación abogado-cliente.
     </p>
     <p class="mt-4">© {anio} {sitio.nombreCompleto}. Todos los derechos reservados.</p>
+  </div>
+
+  <!-- Créditos del desarrollador -->
+  <div class="contenedor mt-10">
+    <div
+      class="flex flex-col gap-5 rounded border border-border bg-surface px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <div class="flex items-center gap-4">
+        <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-gold-dark/60 text-gold">
+          <Icono nombre="codigo" tamano={20} />
+        </span>
+        <div>
+          <p class="etiqueta text-[0.6875rem]">Desarrollador del sitio web</p>
+          <p class="mt-1 font-serif text-xl font-semibold text-text">{sitio.desarrollador.nombre}</p>
+        </div>
+      </div>
+      <ul class="flex flex-col gap-x-6 sm:flex-row sm:items-center">
+        <li>
+          <a href={`mailto:${sitio.desarrollador.correo}`} class="inline-flex min-h-11 items-center gap-2 break-all hover:text-gold-light">
+            <Icono nombre="mail" tamano={16} class="shrink-0 text-gold" />
+            {sitio.desarrollador.correo}
+          </a>
+        </li>
+        <li>
+          <a href={sitio.desarrollador.telefono.href} class="inline-flex min-h-11 items-center gap-2 whitespace-nowrap hover:text-gold-light">
+            <Icono nombre="phone" tamano={16} class="shrink-0 text-gold" />
+            {sitio.desarrollador.telefono.visible}
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </footer>

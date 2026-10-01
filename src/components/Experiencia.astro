@@ -1,0 +1,213 @@
+---
+import EncabezadoSeccion from "./EncabezadoSeccion.astro";
+import Icono from "./Icono.astro";
+
+// Casos ordenados de mayor a menor relevancia. Los primeros VISIBLES se muestran siempre;
+// el resto aparece con el botón "Ver más casos".
+interface Caso {
+  area: string;
+  titulo: string;
+  expediente: string;
+  situacion: string;
+  resultados: string[];
+}
+
+const casos: Caso[] = [
+  {
+    area: "Contencioso administrativo",
+    titulo: "Crédito hipotecario en UDES contra el Banco Nacional de Costa Rica",
+    expediente: "Exp. 19-002847-1027-CA",
+    situacion:
+      "Una pareja de Puriscal tomó un crédito hipotecario en Unidades de Desarrollo (UDES) en 2005. Catorce años después, al hacer el último pago, el banco les dijo que todavía debían más de ₡5,6 millones.",
+    resultados: [
+      "El Tribunal Contencioso Administrativo anuló las cláusulas que fijaban el crédito en UDES y ordenó recalcularlo en colones (Sentencia 37-2020-VIII).",
+      "Prohibió cobrar intereses y ejecutar la hipoteca durante el recálculo, y ordenó eliminar a los clientes de los registros de morosidad.",
+      "Condenó al banco a pagar ₡1.000.000 por daño moral a cada cliente, más las costas.",
+      "La Sala Primera rechazó la casación del banco (Res. 001361-F-S1-2024) y, en ejecución de sentencia, el banco fue condenado a pagar ₡2.605.000 en costas personales (Res. 2026001972).",
+    ],
+  },
+  {
+    area: "Docentes MEP",
+    titulo: "Defensa de un director escolar ante el MEP",
+    expediente: "Exp. disciplinario 1078-2024",
+    situacion:
+      "Defendimos al director de una escuela de la Dirección Regional de Educación de Puriscal en dos procedimientos que el MEP abrió en paralelo a partir de una misma denuncia.",
+    resultados: [
+      "La investigación por supuesto incumplimiento de deberes se archivó (Res. 0676-2025 de la Dirección de Gestión del Talento Humano), que reconoció, entre otras razones, una falta grave al debido proceso.",
+      "Contra la resolución de despido presentamos revocatoria con apelación en subsidio, con base en las contradicciones de las denunciantes, la prueba testimonial y su trayectoria sin sanciones.",
+    ],
+  },
+  {
+    area: "Docentes MEP",
+    titulo: "Defensa de un docente en un procedimiento disciplinario por hostigamiento sexual",
+    expediente: "Exp. administrativo 0297-2023 (MEP)",
+    situacion:
+      "Catorce denuncias contra un profesor de un colegio técnico, con posible despido sin responsabilidad patronal por cada una. Asumimos la defensa desde el traslado de cargos.",
+    resultados: [
+      "Con base en la presunción de inocencia, el in dubio pro reo y el análisis de las contradicciones de la prueba, se rechazaron las denuncias.",
+      "El docente conservó su puesto y se levantó la medida cautelar de reubicación.",
+    ],
+  },
+  {
+    area: "Constitucional",
+    titulo: "Nombramientos por idoneidad y no por continuidad: amparo y acción de inconstitucionalidad",
+    expediente: "Exps. 18-016067-0007-CO y 18-017852-0007-CO",
+    situacion:
+      "Un docente interino MT-6 con diez años de servicio quedaba sin posibilidad de obtener plaza en propiedad por el Decreto Ejecutivo 41261-MEP, que nombraba interinos sin concurso ni valoración de idoneidad.",
+    resultados: [
+      "La Sala Constitucional declaró inconstitucional el decreto completo, con efectos retroactivos (Voto 2020-012799).",
+      "Declaró con lugar el amparo y condenó al Estado al pago de costas, daños y perjuicios (Res. 2023022195).",
+    ],
+  },
+  {
+    area: "Contencioso administrativo",
+    titulo: "Docente de Educación Especial: plaza en propiedad",
+    expediente: "Exp. 25-002710-1027-CA",
+    situacion:
+      "Una docente con seis años continuos en el Liceo Quebrada Ganado había quedado excluida del Transitorio IX de la Ley Marco de Empleo Público. Demandamos al Estado para que se le reconociera su derecho.",
+    resultados: ["La clienta recibió su nombramiento en propiedad en la plaza que se solicitaba."],
+  },
+  {
+    area: "Naturalización",
+    titulo: "Naturalización por residencia ante el Registro Civil y el TSE",
+    expediente: "Exp. 1314-2025 · Res. 2857-N-2026 del TSE",
+    situacion:
+      "Llevamos todo el trámite de la Ley 1155: expediente, documentos apostillados, declaración jurada protocolizada y poder especial.",
+    resultados: [
+      "El Registro Civil aprobó la solicitud (Res. 9713 del 12 de diciembre de 2025).",
+      "El Tribunal Supremo de Elecciones concedió a nuestra representada la nacionalidad costarricense por naturalización.",
+    ],
+  },
+  {
+    area: "Familia",
+    titulo: "Filiación y pensión alimentaria de una persona mayor de edad",
+    expediente: "Exps. 24-000228-1530-FA y 25-000089-0241-PA",
+    situacion: "Representamos a una joven universitaria en dos procesos ante los juzgados de Puriscal.",
+    resultados: [
+      "Se declaró con lugar la investigación de paternidad, con reconocimiento del apellido paterno y condena en costas; el Tribunal de Familia lo confirmó (Voto 2025000625).",
+      "Se fijó una pensión alimentaria adecuada para que pudiera continuar sus estudios superiores.",
+    ],
+  },
+  {
+    area: "Contencioso administrativo",
+    titulo: "Docente de preescolar: plaza en propiedad",
+    expediente: "Exp. 24-006832-1027-CA",
+    situacion:
+      "Una docente con seis años continuos en el Jardín de Niños Central de Alajuelita quedó fuera del Transitorio IX de la Ley 10.159. Impugnamos la forma en que el MEP aplicó la norma, por discriminatoria y contraria al principio de idoneidad.",
+    resultados: ["Con el proceso en curso, la clienta recibió su nombramiento en propiedad."],
+  },
+];
+
+const VISIBLES = 4;
+const [destacado, ...resto] = casos;
+---
+
+<section id="experiencia" aria-labelledby="titulo-experiencia" class="seccion border-t border-border bg-surface">
+  <div class="contenedor">
+    <EncabezadoSeccion id="titulo-experiencia" etiqueta="Experiencia" titulo="Casos que respaldan nuestro trabajo">
+      <p>
+        Una selección de asuntos atendidos por el consultorio ante tribunales, la Sala Constitucional y la
+        Administración Pública. Todos los expedientes son de acceso público.
+      </p>
+    </EncabezadoSeccion>
+
+    <!-- Caso destacado -->
+    <article class="aparecer relative mt-12 overflow-hidden rounded border border-gold-dark/60 bg-bg p-7 sm:p-10">
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute -right-32 -top-32 size-[28rem] rounded-full bg-[radial-gradient(circle,rgb(200_152_63/0.10),transparent_65%)]"
+      >
+      </div>
+      <div class="relative grid gap-8 lg:grid-cols-[5fr_7fr] lg:gap-14">
+        <div>
+          <p class="etiqueta flex items-center gap-2">
+            <Icono nombre="award" tamano={16} /> Caso destacado · {destacado.area}
+          </p>
+          <h3 class="mt-4 font-serif text-[1.75rem] font-semibold leading-tight sm:text-3xl">{destacado.titulo}</h3>
+          <p class="mt-3 text-sm text-text-subtle">{destacado.expediente}</p>
+          <p class="mt-5 leading-relaxed">{destacado.situacion}</p>
+        </div>
+        <ul class="space-y-4 border-border lg:border-l lg:pl-14">
+          {
+            destacado.resultados.map((r) => (
+              <li class="flex gap-3 text-[0.9375rem] leading-relaxed">
+                <Icono nombre="check" tamano={18} class="mt-1 shrink-0 text-gold" />
+                <span>{r}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </article>
+
+    <!-- Resto de casos -->
+    <ul class="mt-6 grid gap-6 md:grid-cols-2" id="lista-casos">
+      {
+        resto.map((caso, i) => (
+          <li class:list={["aparecer", i >= VISIBLES && "caso-extra hidden"]}>
+            <article class="tarjeta flex h-full flex-col bg-bg p-7 transition-colors hover:border-gold-dark/70">
+              <p class="etiqueta flex items-center gap-2">
+                <Icono nombre="gavel" tamano={16} /> {caso.area}
+              </p>
+              <h3 class="mt-4 text-lg">{caso.titulo}</h3>
+              <p class="mt-2 text-sm text-text-subtle">{caso.expediente}</p>
+              <p class="mt-4 text-[0.9375rem] leading-relaxed">{caso.situacion}</p>
+              <div class="mt-5 border-t border-border pt-5">
+                <p class="etiqueta text-[0.6875rem]">Resultado</p>
+                <ul class="mt-3 space-y-2.5">
+                  {caso.resultados.map((r) => (
+                    <li class="flex gap-3 text-[0.9375rem] leading-relaxed">
+                      <Icono nombre="check" tamano={18} class="mt-1 shrink-0 text-gold" />
+                      <span>{r}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      resto.length > VISIBLES && (
+        <div class="mt-8 text-center">
+          <button
+            type="button"
+            id="ver-mas-casos"
+            class="boton boton-secundario"
+            aria-expanded="false"
+            aria-controls="lista-casos"
+          >
+            <span data-texto>Ver más casos</span>
+            <Icono nombre="chevron-down" tamano={18} class="transition-transform duration-300" />
+          </button>
+        </div>
+      )
+    }
+
+    <p class="mt-8 text-center text-sm text-text-subtle">
+      Los resultados obtenidos en casos anteriores no garantizan resultados en casos futuros.
+    </p>
+  </div>
+</section>
+
+<script>
+  const boton = document.getElementById("ver-mas-casos");
+  if (boton) {
+    const extras = document.querySelectorAll<HTMLElement>(".caso-extra");
+    const texto = boton.querySelector<HTMLElement>("[data-texto]")!;
+    const icono = boton.querySelector("svg");
+    boton.addEventListener("click", () => {
+      const abrir = boton.getAttribute("aria-expanded") !== "true";
+      boton.setAttribute("aria-expanded", String(abrir));
+      // Se muestran de inmediato, sin esperar a la transición de aparición.
+      extras.forEach((li) => {
+        li.classList.toggle("hidden", !abrir);
+        li.classList.add("visible");
+      });
+      texto.textContent = abrir ? "Ver menos casos" : "Ver más casos";
+      icono?.classList.toggle("rotate-180", abrir);
+    });
+  }
+</script>

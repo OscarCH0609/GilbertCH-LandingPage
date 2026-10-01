@@ -38,7 +38,7 @@ const conContenido = await Promise.all(preguntas.map(async (p) => ({ p, ...(awai
           id={`${prefijo}-panel-${p.id}`}
           role="region"
           aria-labelledby={`${prefijo}-boton-${p.id}`}
-          class="prosa pb-6 pr-10 text-[0.9375rem] leading-relaxed"
+          class="prosa space-y-3 pb-6 pr-10 text-[0.9375rem] leading-relaxed"
           hidden
         >
           <Content />

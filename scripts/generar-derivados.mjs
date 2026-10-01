@@ -9,9 +9,10 @@ await sharp("src/assets/kit/hero.png")
   .jpeg({ quality: 85, mozjpeg: true })
   .toFile("public/og-image.jpg");
 
-// Monograma grande para el hero, recortado de la foto de perfil de 1080 px.
-await sharp("src/assets/kit/perfil-1080.png")
-  .extract({ left: 110, top: 120, width: 870, height: 870 })
+// Monograma grande para el hero, recortado en cuadrado del monograma en alta resolución (1353 x 1162 px).
+await sharp("src/assets/kit/monograma-alta.webp")
+  .extract({ left: 147, top: 31, width: 1100, height: 1100 })
+  .png()
   .toFile("src/assets/monograma-hero.png");
 
 // Ícono para dispositivos Apple (180 px) a partir del favicon de 512 px.

@@ -1,7 +1,6 @@
 ---
 import { Picture } from "astro:assets";
 import monograma from "../assets/monograma-hero.png";
-import Icono from "./Icono.astro";
 import IconoWhatsApp from "./IconoWhatsApp.astro";
 import { sitio } from "../config/sitio";
 ---
@@ -25,19 +24,15 @@ import { sitio } from "../config/sitio";
         Atendemos sus necesidades para defender sus derechos ante el Estado, el MEP o terceras personas.
       </p>
       <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-        <a href="#contacto" class="boton boton-primario">
-          Solicitar consulta
-          <Icono nombre="arrow-right" tamano={18} />
-        </a>
         <a
           href={sitio.whatsapp.general}
           target="_blank"
           rel="noopener"
-          class="boton boton-secundario"
+          class="boton boton-primario"
           data-evento="clic_whatsapp"
           data-origen="inicio"
         >
-          <IconoWhatsApp tamano={18} class="text-gold" />
+          <IconoWhatsApp tamano={18} />
           Escribir por WhatsApp
         </a>
       </div>
@@ -50,7 +45,7 @@ import { sitio } from "../config/sitio";
         alt=""
         formats={["avif", "webp"]}
         fallbackFormat="webp"
-        widths={[360, 540, 720]}
+        widths={[360, 540, 720, 900]}
         sizes="(min-width: 1024px) 416px, 352px"
         loading="eager"
         fetchpriority="high"

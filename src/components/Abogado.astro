@@ -1,14 +1,12 @@
 ---
 import { Picture } from "astro:assets";
 import monograma from "../assets/monograma-hero.png";
+import fotoAbogado from "../assets/foto-abogado.jpg";
 import EncabezadoSeccion from "./EncabezadoSeccion.astro";
 import Icono, { type NombreIcono } from "./Icono.astro";
 import { sitio } from "../config/sitio";
 
-// PENDIENTE: fotografía profesional del abogado (proporción 4:5).
-// Cuando exista, guárdela en src/assets/foto-abogado.jpg e impórtela aquí:
-//   import foto from "../assets/foto-abogado.jpg";
-const foto: ImageMetadata | null = null;
+const foto: ImageMetadata | null = fotoAbogado;
 
 const valores: { icono: NombreIcono; titulo: string; texto: string }[] = [
   { icono: "award", titulo: "Esfuerzo", texto: "Dedicación constante en la preparación de cada caso." },
@@ -22,7 +20,7 @@ const valores: { icono: NombreIcono; titulo: string; texto: string }[] = [
   <div class="contenedor grid items-start gap-12 lg:grid-cols-[5fr_7fr] lg:gap-20">
     <figure class="aparecer relative mx-auto w-full max-w-sm lg:sticky lg:top-28">
       <div class="absolute -bottom-3 -right-3 h-full w-full rounded border border-gold-dark/60" aria-hidden="true"></div>
-      <div class="relative aspect-[4/5] overflow-hidden rounded bg-surface">
+      <div class="relative aspect-[4/5] overflow-hidden rounded bg-[radial-gradient(circle_at_50%_40%,#1c1c1c,#0a0a0a_70%)]">
         {
           foto ? (
             <Picture
@@ -32,10 +30,10 @@ const valores: { icono: NombreIcono; titulo: string; texto: string }[] = [
               fallbackFormat="webp"
               widths={[400, 640, 800]}
               sizes="(min-width: 1024px) 384px, 90vw"
-              class="h-full w-full object-cover"
+              class="relative h-full w-full object-cover object-bottom"
             />
           ) : (
-            <div class="flex h-full items-center justify-center bg-[radial-gradient(circle_at_50%_40%,#1c1c1c,#0a0a0a_70%)]">
+            <div class="flex h-full items-center justify-center">
               <Picture
                 src={monograma}
                 alt=""

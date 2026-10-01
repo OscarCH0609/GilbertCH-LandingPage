@@ -29,14 +29,14 @@ const base = interior ? "/" : "";
     </a>
 
     <nav aria-label="Principal" class="hidden lg:block">
-      <ul class="flex items-center gap-1 xl:gap-2">
+      <ul class="flex items-center">
         {
           navegacion.map((item) => (
-            <li>
+            <li class="flex items-center not-first:before:h-4 not-first:before:w-px not-first:before:bg-gold/60 not-first:before:content-['']">
               <a
                 href={`${base}#${item.id}`}
                 data-nav={item.id}
-                class="relative inline-flex min-h-11 items-center px-2.5 text-[0.8125rem] font-medium text-text-muted transition-colors hover:text-text aria-[current=true]:text-gold"
+                class="relative inline-flex min-h-11 items-center whitespace-nowrap px-2 text-[0.75rem] font-medium xl:px-3 xl:text-[0.8125rem] text-text-muted transition-colors hover:text-text aria-[current=true]:text-gold"
               >
                 {item.texto}
               </a>
@@ -46,11 +46,7 @@ const base = interior ? "/" : "";
       </ul>
     </nav>
 
-    <div class="flex items-center gap-2">
-      <a href={`${base}#contacto`} class="boton boton-primario !min-h-11 !px-4 text-sm max-[359px]:!px-3">
-        <span class="max-sm:hidden">Solicitar consulta</span>
-        <span class="sm:hidden">Consulta</span>
-      </a>
+    <div class="flex items-center gap-2 lg:hidden">
       <button
         type="button"
         id="boton-menu"
@@ -100,7 +96,6 @@ const base = interior ? "/" : "";
           ))
         }
       </ul>
-      <a href={`${base}#contacto`} class="boton boton-primario mt-8 w-full">Solicitar consulta</a>
     </nav>
   </div>
 </header>

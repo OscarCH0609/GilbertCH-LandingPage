@@ -1,0 +1,127 @@
+---
+import EncabezadoSeccion from "./EncabezadoSeccion.astro";
+import Icono from "./Icono.astro";
+import { sitio } from "../config/sitio";
+
+// IBAN en grupos de 4 y SINPE como 8471-3149, solo para mostrar; se copia sin espacios.
+const formatear = (numero: string) =>
+  numero.startsWith("CR") ? numero.replace(/(.{4})/g, "$1 ").trim() : numero.replace(/(\d{4})(\d{4})/, "$1-$2");
+---
+
+<section id="pagos" aria-labelledby="titulo-pagos" class="seccion border-t border-border bg-surface">
+  <div class="contenedor">
+    <EncabezadoSeccion id="titulo-pagos" etiqueta="Métodos de pago" titulo="Cuentas para el pago de honorarios">
+      <p>
+        Puede pagar por transferencia bancaria o SINPE Móvil. Después de pagar, envíe el comprobante por WhatsApp
+        para confirmar el pago.
+      </p>
+    </EncabezadoSeccion>
+
+    <div class="aparecer mt-12 overflow-hidden rounded border border-border bg-bg">
+      <table class="tabla-pagos w-full text-left">
+        <caption class="sr-only">Cuentas bancarias y SINPE Móvil para el pago de honorarios</caption>
+        <thead class="border-b border-border bg-surface-2">
+          <tr>
+            <th scope="col" class="etiqueta px-6 py-4">Entidad</th>
+            <th scope="col" class="etiqueta px-6 py-4">Moneda</th>
+            <th scope="col" class="etiqueta px-6 py-4">Número de cuenta</th>
+            <th scope="col" class="px-6 py-4"><span class="sr-only">Copiar</span></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-border">
+          {
+            sitio.pagos.map((p) => (
+              <tr class="transition-colors hover:bg-surface">
+                <th scope="row" class="px-6 py-4 font-normal">
+                  <span class="flex items-center gap-3">
+                    <Icono nombre={p.tipo === "Cuenta IBAN" ? "landmark" : "celular"} tamano={20} class="shrink-0 text-gold" />
+                    <span>
+                      <span class="block font-semibold text-text">{p.entidad}</span>
+                      <span class="block text-sm text-text-subtle">{p.tipo}</span>
+                    </span>
+                  </span>
+                </th>
+                <td class="px-6 py-4" data-etiqueta="Moneda">{p.moneda}</td>
+                <td class="px-6 py-4" data-etiqueta="Cuenta">
+                  <span class="whitespace-nowrap font-mono text-[0.9375rem] tracking-wide text-text">{formatear(p.numero)}</span>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <button
+                    type="button"
+                    class="inline-flex min-h-11 items-center gap-2 rounded border border-gold-dark/60 px-3 text-sm font-semibold text-gold transition-colors hover:border-gold hover:text-gold-light"
+                    data-copiar={p.numero}
+                  >
+                    <Icono nombre="copiar" tamano={16} />
+                    <span data-texto>Copiar</span>
+                    <span class="sr-only">número de {p.entidad} en {p.moneda.toLowerCase()}</span>
+                  </button>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p class="mt-4 text-sm text-text-subtle" aria-live="polite" id="aviso-copia"></p>
+  </div>
+</section>
+
+<style>
+  /* En pantallas pequeñas cada fila se muestra como una tarjeta apilada. */
+  @media (max-width: 1023px) {
+    .tabla-pagos thead { display: none; }
+    .tabla-pagos tr {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 0.25rem 1rem;
+      padding: 1.25rem;
+    }
+    .tabla-pagos th, .tabla-pagos td { padding: 0; }
+    .tabla-pagos th[scope="row"] { grid-column: 1 / -1; margin-bottom: 0.5rem; }
+    .tabla-pagos td[data-etiqueta]::before {
+      content: attr(data-etiqueta) ": ";
+      color: var(--color-text-subtle);
+      font-size: 0.875rem;
+    }
+    .tabla-pagos td[data-etiqueta="Moneda"] { grid-column: 1 / -1; }
+  }
+</style>
+
+<script>
+  const aviso = document.getElementById("aviso-copia");
+
+  // Respaldo para navegadores sin acceso a la API del portapapeles.
+  function copiarConSeleccion(valor: string) {
+    const campo = document.createElement("textarea");
+    campo.value = valor;
+    campo.setAttribute("readonly", "");
+    campo.style.position = "fixed";
+    campo.style.opacity = "0";
+    document.body.appendChild(campo);
+    campo.select();
+    const ok = document.execCommand("copy");
+    campo.remove();
+    if (!ok) throw new Error("copia no disponible");
+  }
+
+  document.querySelectorAll<HTMLButtonElement>("[data-copiar]").forEach((boton) => {
+    const texto = boton.querySelector<HTMLElement>("[data-texto]")!;
+    boton.addEventListener("click", async () => {
+      try {
+        const valor = boton.dataset.copiar!;
+        try {
+          await navigator.clipboard.writeText(valor);
+        } catch {
+          copiarConSeleccion(valor);
+        }
+        texto.textContent = "Copiado";
+        if (aviso) aviso.textContent = `Número ${boton.dataset.copiar} copiado al portapapeles.`;
+        setTimeout(() => (texto.textContent = "Copiar"), 2000);
+      } catch {
+        if (aviso) aviso.textContent = "No se pudo copiar automáticamente; seleccione el número y cópielo.";
+      }
+    });
+  });
+</script>
